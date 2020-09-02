@@ -20,7 +20,8 @@ export default {
     if (this.isAuth) {
       this.$store.dispatch("User/USER_REQUEST");
     }
-  }
+  },
+  mounted() {}
 };
 </script>
 <style lang="scss">

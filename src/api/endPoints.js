@@ -1,5 +1,2 @@
-import httpClient from "./httpClient";
-export default {
-  AUTH_REQUEST: (email, password) =>
-    httpClient.$post("/auth/login", { email, password }),
-};
+export const AUTH_REQUEST_URL = () => `auth`;
+export const USER_REQUEST_URL = () => `user/me`;

@@ -1,8 +1,7 @@
 import apiCall from "@/utils/api";
 
-import endpoints from "@/api/endPoints";
-
-console.log(endpoints.AUTH_REQUEST());
+import { AUTH_REQUEST_URL } from "@/api/endPoints";
+import httpClient from "@/api/httpClient";
 
 const state = {
   token: localStorage.getItem("user-token") || "",
@@ -10,11 +9,20 @@ const state = {
   hasLoadedOnce: false,
 };
 
+// httpClient
+//   .post(AUTH_REQUEST_URL(), {
+//     username: '1',
+//     password: '2',
+//   })
+//   .then((res) => {
+//     console.log(res);
+//   });
+
 const actions = {
   AUTH_REQUEST: ({ commit, dispatch }, user) => {
     return new Promise((resolve, reject) => {
       commit("AUTH_REQUEST");
-      apiCall({ url: "auth", data: user, method: "POST" })
+      apiCall({ url: AUTH_REQUEST_URL(), data: user, method: "POST" })
         .then((resp) => {
           localStorage.setItem("user-token", resp.token);
           // Here set the header of your ajax library to the token value.

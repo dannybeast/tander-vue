@@ -1,5 +1,6 @@
 import apiCall from "@/utils/api";
 import Vue from "vue";
+import { USER_REQUEST_URL } from "@/api/endPoints";
 
 const state = { status: "", profile: {} };
 
@@ -23,7 +24,7 @@ const actions = {
   // Получение пользователя
   USER_REQUEST: ({ commit, dispatch }) => {
     commit("USER_REQUEST");
-    apiCall({ url: "user/me" })
+    apiCall({ url: USER_REQUEST_URL() })
       .then((resp) => {
         commit("USER_SUCCESS", resp);
       })

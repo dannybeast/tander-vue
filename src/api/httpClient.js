@@ -44,7 +44,6 @@ const errorInterceptor = (error) => {
   return Promise.reject(error);
 };
 
-// Interceptor for responses
 const responseInterceptor = (response) => {
   switch (response.status) {
     case 200:
