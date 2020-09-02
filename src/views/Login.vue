@@ -43,7 +43,7 @@ export default {
       this.$store
         .dispatch("Auth/AUTH_REQUEST", { username, password })
         .then(() => {
-          this.$router.push({ path: "/page" });
+          this.$router.push("/");
         });
     }
   }

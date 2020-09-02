@@ -1,28 +1,15 @@
 import apiCall from "@/utils/api";
 
+import endpoints from "@/api/endPoints";
+
+console.log(endpoints.AUTH_REQUEST());
+
 const state = {
   token: localStorage.getItem("user-token") || "",
   status: "",
   hasLoadedOnce: false,
 };
 
-const mutations = {
-  AUTH_REQUEST: (state) => {
-    state.status = "loading";
-  },
-  AUTH_SUCCESS: (state, resp) => {
-    state.status = "success";
-    state.token = resp.token;
-    state.hasLoadedOnce = true;
-  },
-  AUTH_ERROR: (state) => {
-    state.status = "error";
-    state.hasLoadedOnce = true;
-  },
-  AUTH_LOGOUT: (state) => {
-    state.token = "";
-  },
-};
 const actions = {
   AUTH_REQUEST: ({ commit, dispatch }, user) => {
     return new Promise((resolve, reject) => {
@@ -34,6 +21,7 @@ const actions = {
           // example with axios
           // axios.defaults.headers.common['Authorization'] = resp.token
           commit("AUTH_SUCCESS", resp);
+          // Получаем данные пользователя
           dispatch("User/USER_REQUEST", null, { root: true });
           resolve(resp);
         })
@@ -50,6 +38,23 @@ const actions = {
       localStorage.removeItem("user-token");
       resolve();
     });
+  },
+};
+const mutations = {
+  AUTH_REQUEST: (state) => {
+    state.status = "loading";
+  },
+  AUTH_SUCCESS: (state, resp) => {
+    state.status = "success";
+    state.token = resp.token;
+    state.hasLoadedOnce = true;
+  },
+  AUTH_ERROR: (state) => {
+    state.status = "error";
+    state.hasLoadedOnce = true;
+  },
+  AUTH_LOGOUT: (state) => {
+    state.token = "";
   },
 };
 const getters = {

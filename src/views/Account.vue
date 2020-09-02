@@ -3,28 +3,27 @@
 
   +b.page
     +e.H3.title Ваш профиль
-    
+    ul
+      li Пользователь: {{username}}
+      li Права: {{role}}    
 
 </template>
 
 <script>
-import {mapState} from "vuex";
+import { mapState } from "vuex";
 
 export default {
   name: "Account",
-  data(){
-    return{
-     
-    }
+  data() {
+    return {};
   },
-  components: {
-    
+  components: {},
+  computed: {
+    ...mapState({
+      username: state => state.User.profile.name,
+      role: state => state.User.profile.role
+    })
   },
-  computed:{
- 
-  },
-  mounted(){
-    
-  }
+  mounted() {}
 };
 </script>

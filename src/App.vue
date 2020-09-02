@@ -14,12 +14,11 @@ export default {
     Navigation
   },
   computed: {
-    ...mapGetters({ isAuth: "Auth/isAuthenticated" }),
-    ...mapActions(["User/USER_REQUEST"])
+    ...mapGetters({ isAuth: "Auth/isAuthenticated" })
   },
   created: function() {
     if (this.isAuth) {
-      this.USER_REQUEST;
+      this.$store.dispatch("User/USER_REQUEST");
     }
   }
 };

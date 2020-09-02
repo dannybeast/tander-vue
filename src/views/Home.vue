@@ -8,23 +8,15 @@
 </template>
 
 <script>
-import {mapState} from "vuex";
+import { mapState } from "vuex";
 
 export default {
   name: "Home",
-  data(){
-    return{
-     
-    }
+  data() {
+    return {};
   },
-  components: {
-    
-  },
-  computed:{
- 
-  },
-  mounted(){
-    
-  }
+  components: {},
+  computed: {},
+  mounted() {}
 };
 </script>

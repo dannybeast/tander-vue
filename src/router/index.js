@@ -1,37 +1,19 @@
 import Vue from "vue";
 import VueRouter from "vue-router";
-import store from "@/store";
+import { ifAuthenticated, ifNotAuthenticated } from "@/middleware/isAuthRouter";
 Vue.use(VueRouter);
-
-const ifNotAuthenticated = (to, from, next) => {
-  if (!store.getters.isAuthenticated) {
-    next();
-    return;
-  }
-  next("/");
-};
-const ifAuthenticated = (to, from, next) => {
-  if (store.getters.isAuthenticated) {
-    next();
-    return;
-  }
-  next("/login");
-};
 
 const routes = [
   {
     path: "/",
     name: "Home",
-    component: () => import("../views/Home.vue"),
     beforeEnter: ifAuthenticated,
+    component: () => import("../views/Home.vue"),
   },
   {
     path: "/account",
     name: "Account",
     beforeEnter: ifAuthenticated,
-    // route level code-splitting
-    // this generates a separate chunk (about.[hash].js) for this route
-    // which is lazy-loaded when the route is visited.
     component: () => import("../views/Account.vue"),
   },
   {
@@ -39,6 +21,15 @@ const routes = [
     name: "Login",
     beforeEnter: ifNotAuthenticated,
     component: () => import("../views/Login.vue"),
+  },
+  {
+    path: "/404",
+    name: "404",
+    component: () => import("../views/404.vue"),
+  },
+  {
+    path: "*",
+    redirect: "/404",
   },
 ];
 
