@@ -1,25 +1,33 @@
 import Vue from "vue";
 import VueRouter from "vue-router";
-import { ifAuthenticated, ifNotAuthenticated } from "@/middleware/isAuthRouter";
+import VueRouteMiddleware from "vue-route-middleware";
+import isAuth from "@/middleware/isAuth";
+import { abilities } from "@/services/user-management";
+
 Vue.use(VueRouter);
 
 const routes = [
   {
     path: "/",
     name: "Home",
-    beforeEnter: ifAuthenticated,
     component: () => import("../views/Home.vue"),
+    meta: {
+      middleware: [isAuth],
+      requiresAuth: "homeVIEW",
+    },
   },
   {
     path: "/account",
     name: "Account",
-    beforeEnter: ifAuthenticated,
+    meta: {
+      middleware: [isAuth],
+      requiresAuth: "accountVIEW",
+    },
     component: () => import("../views/Account.vue"),
   },
   {
     path: "/login",
     name: "Login",
-    beforeEnter: ifNotAuthenticated,
     component: () => import("../views/Login.vue"),
   },
   {
@@ -38,5 +46,24 @@ const router = new VueRouter({
   base: process.env.BASE_URL,
   routes,
 });
+
+router.beforeEach((to, from, next) => {
+  if (to.meta.requiresAuth) {
+    const subject = {
+      type: to.meta.requiresAuth,
+      ...to.params,
+    };
+
+    const authenticated = abilities.can("read", subject);
+
+    if (!authenticated) {
+      //login, 404, whatever
+      return next("/404");
+    }
+  }
+  next();
+});
+
+router.beforeEach(VueRouteMiddleware());
 
 export default router;

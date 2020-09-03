@@ -1,41 +1,29 @@
 import apiCall from "@/utils/api";
-
 import { AUTH_REQUEST_URL } from "@/api/endPoints";
 import httpClient from "@/api/httpClient";
 
 const state = {
-  token: localStorage.getItem("user-token") || "",
+  token: localStorage.getItem("access-token") || "",
   status: "",
   hasLoadedOnce: false,
 };
-
-// httpClient
-//   .post(AUTH_REQUEST_URL(), {
-//     username: '1',
-//     password: '2',
-//   })
-//   .then((res) => {
-//     console.log(res);
-//   });
 
 const actions = {
   AUTH_REQUEST: ({ commit, dispatch }, user) => {
     return new Promise((resolve, reject) => {
       commit("AUTH_REQUEST");
+
       apiCall({ url: AUTH_REQUEST_URL(), data: user, method: "POST" })
         .then((resp) => {
-          localStorage.setItem("user-token", resp.token);
-          // Here set the header of your ajax library to the token value.
-          // example with axios
-          // axios.defaults.headers.common['Authorization'] = resp.token
-          commit("AUTH_SUCCESS", resp);
+          // Устанавливаем токен в localstorage
+          localStorage.setItem("access-token", resp.token);
           // Получаем данные пользователя
           dispatch("User/USER_REQUEST", null, { root: true });
           resolve(resp);
         })
         .catch((err) => {
           commit("AUTH_ERROR", err);
-          localStorage.removeItem("user-token");
+          localStorage.removeItem("access-token");
           reject(err);
         });
     });
@@ -43,7 +31,8 @@ const actions = {
   AUTH_LOGOUT: ({ commit }) => {
     return new Promise((resolve) => {
       commit("AUTH_LOGOUT");
-      localStorage.removeItem("user-token");
+      commit("User/AUTH_LOGOUT", null, { root: true });
+      localStorage.removeItem("access-token");
       resolve();
     });
   },

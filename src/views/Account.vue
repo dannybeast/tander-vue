@@ -10,7 +10,7 @@
 </template>
 
 <script>
-import { mapState } from "vuex";
+import { mapState, mapGetters } from "vuex";
 
 export default {
   name: "Account",
@@ -20,10 +20,9 @@ export default {
   components: {},
   computed: {
     ...mapState({
-      username: state => state.User.profile.name,
-      role: state => state.User.profile.role
-    })
+      username: (state) => state.User.profile.name,
+      role: (state) => state.User.profile.role,
+    }),
   },
-  mounted() {}
 };
 </script>

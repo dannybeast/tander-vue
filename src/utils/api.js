@@ -1,7 +1,7 @@
 // Тестовые данные
 const mocks = {
   auth: { POST: { token: "This-is-a-mocked-token" } },
-  "user/me": { GET: { name: "Petya", role: "admin" } },
+  "user/me": { GET: { name: "Test", role: "MANAGER" } },
 };
 
 const apiCall = ({ url, method }) =>

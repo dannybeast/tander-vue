@@ -1,6 +1,6 @@
 <template lang="pug">
   include ../utils/bem/index.pug
-
+  
   +b.page
     +e.H3.title Авторизация
     +b.FORM(@submit.prevent="login")
@@ -24,6 +24,8 @@
 </template>
 
 <script>
+import httpClient from "@/api/httpClient";
+
 export default {
   name: "Home",
   data() {
@@ -31,21 +33,16 @@ export default {
       authForm: {
         username: "",
         password: "",
-        role: "admin"
-      }
+        role: "admin",
+      },
     };
   },
-
   methods: {
     login: function() {
-      const { username, password } = this;
-
-      this.$store
-        .dispatch("Auth/AUTH_REQUEST", { username, password })
-        .then(() => {
-          this.$router.push("/");
-        });
-    }
-  }
+      this.$store.dispatch("Auth/AUTH_REQUEST", this.authForm).then((res) => {
+        this.$router.push("/");
+      });
+    },
+  },
 };
 </script>
