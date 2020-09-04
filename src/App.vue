@@ -2,22 +2,28 @@
   include ./utils/bem/index.pug
   #app
     main-layout
-      navigation(v-if="isAuth")
-      router-view
+      loading(v-if="authStatus === 'loading'")
+      
+      div(v-else)
+        navigation(v-if="isAuth")
+        router-view
 </template>
 
 <script>
 import { mapGetters, mapActions } from "vuex";
 import Navigation from "@/components/libs/Navigation";
 import MainLayout from "@/components/layout/MainLayout";
+import Loading from "@/components/libs/Loading";
 
 export default {
   components: {
     Navigation,
-    MainLayout
+    MainLayout,
+    Loading
   },
   computed: {
-    ...mapGetters({ isAuth: "Auth/isAuthenticated" })
+    ...mapGetters({ isAuth: "Auth/isAuthenticated" }),
+    ...mapGetters({ authStatus: "Auth/authStatus" })
   },
   created: function() {
     if (this.isAuth) {

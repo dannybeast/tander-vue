@@ -3,9 +3,7 @@
 
   +b.page
     +e.H3.title Главная
-    
-    loading(v-if="loading")
-    +e.content(v-else)
+    +e.content
       p Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
     
     //- +b.DIV.typography(v-if="$can('read', 'SecretText')")
@@ -17,7 +15,6 @@
 </template>
 
 <script>
-import Loading from "@/components/libs/Loading";
 import httpClient from "@/api/httpClient";
 import { mapGetters } from "vuex";
 
@@ -28,10 +25,7 @@ export default {
   },
   components: { Loading },
   computed: {
-    ...mapGetters(["Auth/isAuthenticated", "Auth/authStatus"]),
-    loading: function() {
-      return this.authStatus === "loading" && !this.isAuthenticated;
-    },
-  },
+    ...mapGetters(["Auth/isAuthenticated", "Auth/authStatus"])
+  }
 };
 </script>
