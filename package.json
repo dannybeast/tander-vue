@@ -36,6 +36,7 @@
     "pug": "^3.0.0",
     "pug-plain-loader": "^1.0.0",
     "sass-loader": "^8.0.2",
+    "smart-grid": "^2.1.2",
     "vue-route-middleware": "^1.0.7",
     "vue-template-compiler": "^2.6.11"
   }

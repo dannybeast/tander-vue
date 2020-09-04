@@ -7,10 +7,13 @@
     loading(v-if="loading")
     +e.content(v-else)
       p Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
-    +b.DIV.typography(v-if="$can('read', 'Secret')")
-      p Secret content
-    //- Can(I="read" a="Post")
-    //-   p hello
+    
+    //- +b.DIV.typography(v-if="$can('read', 'SecretText')")
+    //-   p Информация доступна только админу
+
+    //- Can(I="read" a="Secret")
+    //-   p Информация доступна менеджеру и админу
+
 </template>
 
 <script>

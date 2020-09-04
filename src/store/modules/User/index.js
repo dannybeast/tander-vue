@@ -1,7 +1,7 @@
 import apiCall from "@/utils/api";
 import Vue from "vue";
 import { USER_REQUEST_URL } from "@/api/endPoints";
-import { defineAbilitiesFor, abilities } from "@/services/user-management";
+//import { defineAbilitiesFor, abilities } from "@/services/user-management";
 
 const state = { status: "", profile: {} };
 
@@ -22,23 +22,22 @@ const mutations = {
 };
 
 const actions = {
-  // Получение данных пользователя
   USER_REQUEST: ({ commit, dispatch }) => {
     commit("USER_REQUEST");
 
     apiCall({ url: USER_REQUEST_URL() })
       .then((resp) => {
-        abilities.update(defineAbilitiesFor(resp));
-        if (resp) {
-          localStorage.setItem("vue-casl/user", JSON.stringify(resp));
-        } else {
-          localStorage.removeItem("vue-casl/user");
-        }
+        //abilities.update(defineAbilitiesFor(resp));
+        // if (resp) {
+        //   localStorage.setItem("vue-casl/user", JSON.stringify(resp));
+        // } else {
+        //   localStorage.removeItem("vue-casl/user");
+        // }
         commit("USER_SUCCESS", resp);
       })
       .catch(() => {
         commit("USER_ERROR");
-        dispatch("AUTH_LOGOUT");
+        dispatch("Auth/AUTH_LOGOUT", null, { root: true });
       });
   },
 };

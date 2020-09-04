@@ -13,7 +13,6 @@ const routes = [
     component: () => import("../views/Home.vue"),
     meta: {
       middleware: [isAuth],
-      requiresAuth: "homeVIEW",
     },
   },
   {
@@ -21,7 +20,6 @@ const routes = [
     name: "Account",
     meta: {
       middleware: [isAuth],
-      requiresAuth: "accountVIEW",
     },
     component: () => import("../views/Account.vue"),
   },
@@ -45,23 +43,6 @@ const router = new VueRouter({
   mode: "history",
   base: process.env.BASE_URL,
   routes,
-});
-
-router.beforeEach((to, from, next) => {
-  if (to.meta.requiresAuth) {
-    const subject = {
-      type: to.meta.requiresAuth,
-      ...to.params,
-    };
-
-    const authenticated = abilities.can("read", subject);
-
-    if (!authenticated) {
-      //login, 404, whatever
-      return next("/404");
-    }
-  }
-  next();
 });
 
 router.beforeEach(VueRouteMiddleware());

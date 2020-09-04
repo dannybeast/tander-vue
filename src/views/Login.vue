@@ -2,29 +2,27 @@
   include ../utils/bem/index.pug
   
   +b.page
-    +e.H3.title Авторизация
-    +b.FORM(@submit.prevent="login")
+    
+    +e.H3.title Вход в систему:
+
+    +b.FORM.auth-form
+      
       +b.field
-        label Ваш логин:
-        input(type="text" v-model="authForm.username") 
+        label Логин:
+        +e.INPUT.input(type="text" v-model="authForm.username") 
+      
       +b.field
         label Пароль:
-        input(type="password" v-model="authForm.password")
-      +b.field
-        label
-          input(type="radio" name="role" value="admin" v-model="authForm.role")
-          span Админ
-      +b.field
-        label
-          input(type="radio" name="role" value="user" v-model="authForm.role")
-          span Пользователь
-      button Войти
-    p {{authForm}}
+        +e.INPUT.input(type="password" v-model="authForm.password")
+      
+      +e.bottom
+        t-button(size="large" primary label="Войти" @onClick="login")
 
 </template>
 
 <script>
 import httpClient from "@/api/httpClient";
+import { TButton } from "@/libs/tander-ui";
 
 export default {
   name: "Home",
@@ -33,16 +31,45 @@ export default {
       authForm: {
         username: "",
         password: "",
-        role: "admin",
       },
     };
   },
+  components: { TButton },
   methods: {
     login: function() {
-      this.$store.dispatch("Auth/AUTH_REQUEST", this.authForm).then((res) => {
+      this.$store.dispatch("Auth/AUTH_REQUEST", this.authForm).then(() => {
         this.$router.push("/");
       });
     },
   },
 };
 </script>
+
+<style lang="scss">
+.field {
+  label {
+    display: block;
+    font-size: 14px;
+    margin-bottom: 5px;
+  }
+  &__input {
+    border: solid 1px #ddd;
+    height: 40px;
+    width: 100%;
+    font-size: 16px;
+    padding-left: 10px;
+  }
+}
+.auth-form {
+  padding: 30px;
+  border: solid 1px #ddd;
+  margin: 0 auto;
+  max-width: 500px;
+  .field {
+    margin-bottom: 10px;
+  }
+  &__bottom {
+    margin-top: 15px;
+  }
+}
+</style>

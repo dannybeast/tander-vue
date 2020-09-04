@@ -7,6 +7,9 @@ import Notifications from "vue-notification";
 // Ability
 import { abilitiesPlugin } from "@casl/vue";
 import { abilities } from "@/services/user-management";
+import { Can } from "@casl/vue";
+
+Vue.component("Can", Can);
 Vue.use(abilitiesPlugin, abilities);
 //
 Vue.use(Notifications);

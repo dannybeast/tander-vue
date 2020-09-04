@@ -22,10 +22,24 @@ export default {
 };
 </script>
 
-<style scoped>
-a {
-  cursor: pointer;
-  color: #000;
-  text-decoration: underline;
+<style lang="scss" scoped>
+.nav {
+  ul {
+    list-style: none;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  li {
+    margin: 0 30px;
+  }
+  a {
+    cursor: pointer;
+    color: #000;
+    text-decoration: underline;
+    &.router-link-exact-active {
+      color: red;
+    }
+  }
 }
 </style>
