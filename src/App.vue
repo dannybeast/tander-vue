@@ -14,17 +14,16 @@ import MainLayout from "@/components/layout/MainLayout";
 export default {
   components: {
     Navigation,
-    MainLayout,
+    MainLayout
   },
   computed: {
-    ...mapGetters({ isAuth: "Auth/isAuthenticated" }),
+    ...mapGetters({ isAuth: "Auth/isAuthenticated" })
   },
   created: function() {
     if (this.isAuth) {
       this.$store.dispatch("User/USER_REQUEST");
     }
-  },
-  mounted() {},
+  }
 };
 </script>
 <style lang="scss">

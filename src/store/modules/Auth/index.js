@@ -1,6 +1,7 @@
 import apiCall from "@/utils/api";
 import { AUTH_REQUEST_URL } from "@/api/endPoints";
 import httpClient from "@/api/httpClient";
+import router from "@/router";
 
 const state = {
   token: localStorage.getItem("access-token") || "",
@@ -19,6 +20,9 @@ const actions = {
           localStorage.setItem("access-token", resp.token);
           // Получаем данные пользователя
           dispatch("User/USER_REQUEST", null, { root: true });
+          commit("AUTH_SUCCESS", resp);
+          router.push("/");
+
           resolve(resp);
         })
         .catch((err) => {
@@ -33,6 +37,7 @@ const actions = {
       commit("AUTH_LOGOUT");
       commit("User/AUTH_LOGOUT", null, { root: true });
       localStorage.removeItem("access-token");
+      router.push("/login");
       resolve();
     });
   },

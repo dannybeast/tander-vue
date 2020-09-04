@@ -2,7 +2,6 @@
   include ../utils/bem/index.pug
   
   +b.page
-    p {{isAuth}}
     +e.H3.title Вход в систему:
 
     +b.FORM.auth-form
@@ -23,7 +22,6 @@
 <script>
 import httpClient from "@/api/httpClient";
 import { TButton } from "@/libs/tander-ui";
-import { mapGetters } from "vuex";
 
 export default {
   name: "Home",
@@ -35,16 +33,10 @@ export default {
       }
     };
   },
-  computed: {
-    ...mapGetters({ isAuth: "Auth/isAuthenticated" })
-  },
-
   components: { TButton },
   methods: {
     login: function() {
-      this.$store.dispatch("Auth/AUTH_REQUEST", this.authForm).then(() => {
-        this.$router.push("/");
-      });
+      this.$store.dispatch("Auth/AUTH_REQUEST", this.authForm);
     }
   }
 };
