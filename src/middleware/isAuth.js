@@ -4,5 +4,7 @@ export default (to, from, next) => {
   if (!auth) {
     next("/login");
     return;
+  } else {
+    next();
   }
 };

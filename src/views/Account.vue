@@ -5,7 +5,7 @@
     +e.H3.title Ваш профиль
     ul
       li Пользователь: {{username}}
-      li Права: {{role}}    
+      li Права: {{role}}
 
 </template>
 
@@ -17,12 +17,11 @@ export default {
   data() {
     return {};
   },
-  components: {},
   computed: {
     ...mapState({
-      username: (state) => state.User.profile.name,
-      role: (state) => state.User.profile.role,
-    }),
-  },
+      username: state => state.User.profile.name,
+      role: state => state.User.profile.role
+    })
+  }
 };
 </script>

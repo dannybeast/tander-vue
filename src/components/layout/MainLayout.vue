@@ -7,14 +7,14 @@
 
 <script>
 import { THeader } from "@/libs/tander-ui";
-import { mapGetters } from "vuex";
+import { mapState } from "vuex";
 
 export default {
   components: {
     THeader
   },
   computed: {
-    ...mapGetters({
+    ...mapState({
       user: state => state.User.profile
     })
   }
