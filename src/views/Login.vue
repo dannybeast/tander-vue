@@ -13,14 +13,23 @@
       +b.field
         label Пароль:
         +e.INPUT.input(type="password" v-model="authForm.password")
-      
+
+      +b.field
+        label
+          input(type="radio" name="rules" value="admin" v-model="authForm.rules")
+          span Админ
+
+      +b.field
+        label
+          input(type="radio" name="rules" value="manager" v-model="authForm.rules")
+          span Менеджер
+
       +e.bottom
         t-button(size="large" primary label="Войти" @onClick="login")
 
 </template>
 
 <script>
-import httpClient from "@/api/httpClient";
 import { TButton } from "@/libs/tander-ui";
 
 export default {
@@ -29,7 +38,8 @@ export default {
     return {
       authForm: {
         username: "",
-        password: ""
+        password: "",
+        rules: "admin"
       }
     };
   },

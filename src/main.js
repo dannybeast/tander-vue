@@ -3,15 +3,15 @@ import App from "./App.vue";
 import router from "./router";
 import store from "./store";
 import Notifications from "vue-notification";
+import { abilitiesPlugin } from '@casl/vue';
+import {ability} from '@/services/userAbilities';
+import { Can } from '@casl/vue';
 
-// Ability
-import { abilitiesPlugin } from "@casl/vue";
-import { abilities } from "@/services/user-management";
-import { Can } from "@casl/vue";
+// Global components
+Vue.component('Can', Can);
 
-Vue.component("Can", Can);
-Vue.use(abilitiesPlugin, abilities);
-//
+// Use
+Vue.use(abilitiesPlugin, ability);
 Vue.use(Notifications);
 
 Vue.config.productionTip = false;

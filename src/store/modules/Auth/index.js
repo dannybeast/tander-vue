@@ -1,7 +1,7 @@
-import apiCall from "@/utils/api";
+import apiCall from "@/tests/mocksApi";
 import { AUTH_REQUEST_URL } from "@/api/endPoints";
-import httpClient from "@/api/httpClient";
 import router from "@/router";
+import {ability} from '@/services/userAbilities';
 
 const state = {
   token: localStorage.getItem("access-token") || "",
@@ -16,13 +16,12 @@ const actions = {
 
       apiCall({ url: AUTH_REQUEST_URL(), data: user, method: "POST" })
         .then((resp) => {
-          // Устанавливаем токен в localstorage
           localStorage.setItem("access-token", resp.token);
-          // Получаем данные пользователя
-          dispatch("User/USER_REQUEST", null, { root: true });
+
+          // Get user data
+          dispatch("User/USER_REQUEST", user, { root: true });
           commit("AUTH_SUCCESS", resp);
           router.push("/");
-
           resolve(resp);
         })
         .catch((err) => {
@@ -37,6 +36,10 @@ const actions = {
       commit("AUTH_LOGOUT");
       commit("User/AUTH_LOGOUT", null, { root: true });
       localStorage.removeItem("access-token");
+       // TODO: Удалить после связки с бекендом
+       localStorage.removeItem('profile')
+       ability.update({});
+       // 
       router.push("/login");
       resolve();
     });

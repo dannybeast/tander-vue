@@ -1,6 +1,6 @@
-import Vue from "vue";
 import axios from "axios";
 
+// Инициализируем Axios
 const httpClient = axios.create({
   baseURL: process.env.VUE_APP_BASE_URL,
   headers: {
@@ -8,6 +8,7 @@ const httpClient = axios.create({
   },
 });
 
+// Перехватчик access-token
 const tokenInterceptor = (config) => {
   let token = localStorage.getItem("access-token");
   if (token) {
@@ -18,7 +19,7 @@ const tokenInterceptor = (config) => {
   return config;
 };
 
-// interceptor to catch errors
+// Перехватчик ошибок
 const errorInterceptor = (error) => {
   if (!error.response) {
     return Promise.reject(error);
@@ -29,8 +30,8 @@ const errorInterceptor = (error) => {
       break;
 
     case 401:
-      localStorage.removeItem("token");
-      router.push("/auth");
+      localStorage.removeItem("access-token");
+      router.push("/login");
       break;
 
     default:
@@ -39,6 +40,7 @@ const errorInterceptor = (error) => {
   return Promise.reject(error);
 };
 
+// Перехватчик ответов сервера
 const responseInterceptor = (response) => {
   switch (response.status) {
     case 200:

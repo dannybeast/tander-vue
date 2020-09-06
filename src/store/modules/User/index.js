@@ -1,7 +1,7 @@
-import apiCall from "@/utils/api";
+import apiCall from "@/tests/mocksApi";
 import Vue from "vue";
 import { USER_REQUEST_URL } from "@/api/endPoints";
-//import { defineAbilitiesFor, abilities } from "@/services/user-management";
+import {ability, defineAbilityFor} from '@/services/userAbilities';
 
 const state = { status: "", profile: {} };
 
@@ -22,17 +22,17 @@ const mutations = {
 };
 
 const actions = {
-  USER_REQUEST: ({ commit, dispatch }) => {
+  USER_REQUEST: ({ commit, dispatch }, user) => {
     commit("USER_REQUEST");
 
-    apiCall({ url: USER_REQUEST_URL() })
+    apiCall({ url: USER_REQUEST_URL(), data: user })
       .then((resp) => {
-        //abilities.update(defineAbilitiesFor(resp));
-        // if (resp) {
-        //   localStorage.setItem("vue-casl/user", JSON.stringify(resp));
-        // } else {
-        //   localStorage.removeItem("vue-casl/user");
-        // }
+        // TODO: Удалить после связки с бекендом
+        localStorage.setItem('profile', JSON.stringify(resp))
+        // 
+        const rules = defineAbilityFor(resp);
+        ability.update(rules);
+
         commit("USER_SUCCESS", resp);
       })
       .catch(() => {

@@ -2,8 +2,9 @@
   include ./utils/bem/index.pug
   #app
     main-layout
+      // Loader
       loading(v-if="authStatus === 'loading'")
-      
+      // Content
       div(v-else)
         navigation(v-if="isAuth")
         router-view
@@ -11,9 +12,9 @@
 
 <script>
 import { mapGetters, mapActions } from "vuex";
-import Navigation from "@/components/libs/Navigation";
+import Navigation from "@/components/ui/Navigation";
 import MainLayout from "@/components/layout/MainLayout";
-import Loading from "@/components/libs/Loading";
+import Loading from "@/components/ui/Loading";
 
 export default {
   components: {
@@ -27,7 +28,8 @@ export default {
   },
   created: function() {
     if (this.isAuth) {
-      this.$store.dispatch("User/USER_REQUEST");
+      // TODO: localstorage удалить после связки с бекендом
+      this.$store.dispatch("User/USER_REQUEST", JSON.parse(localStorage.getItem('profile')));
     }
   }
 };

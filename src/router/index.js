@@ -2,8 +2,7 @@ import Vue from "vue";
 import VueRouter from "vue-router";
 import VueRouteMiddleware from "vue-route-middleware";
 import isAuth from "@/middleware/isAuth";
-import { abilities } from "@/services/user-management";
-
+import {ability} from '@/services/userAbilities';
 Vue.use(VueRouter);
 
 const routes = [
@@ -29,6 +28,16 @@ const routes = [
     component: () => import("../views/Login.vue"),
   },
   {
+    path: "/admin",
+    name: "Admin",
+    component: () => import("../views/Admin.vue"),
+  },
+  {
+    path: "/manager",
+    name: "Manager",
+    component: () => import("../views/Manager.vue"),
+  },
+  {
     path: "/404",
     name: "404",
     component: () => import("../views/404.vue"),
@@ -46,5 +55,18 @@ const router = new VueRouter({
 });
 
 router.beforeEach(VueRouteMiddleware());
+
+
+// router.beforeEach((to, from, next) => {
+//   const canNavigate = to.matched.some(route => {
+//     let rules = ability.rules;
+//     return rules.can('read', route.meta.resource)
+//   })
+//   if (!canNavigate) {
+//     alert("Нет доступа");
+//     return next('/')
+//   }
+//   next()
+// })
 
 export default router;

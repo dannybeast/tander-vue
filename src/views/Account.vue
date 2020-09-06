@@ -14,13 +14,10 @@ import { mapState, mapGetters } from "vuex";
 
 export default {
   name: "Account",
-  data() {
-    return {};
-  },
   computed: {
     ...mapState({
-      username: state => state.User.profile.name,
-      role: state => state.User.profile.role
+      username: state => state.User.profile.username,
+      role: state => state.User.profile.rules
     })
   }
 };

@@ -7,6 +7,10 @@
       li
         router-link(to="/account") Аккаунт
       li
+        router-link(to="/manager") Менеджер
+      li
+        router-link(to="/admin") Админ
+      li
         a(@click="logout") Выход
 </template>
 

@@ -10,14 +10,11 @@ var settings = {
     fields: "30px",
   },
   breakPoints: {
-    xxl: {
+    xl: {
       width: "1600px",
     },
-    xl: {
-      width: "1280px",
-    },
     lg: {
-      width: "1100px",
+      width: "1200px",
     },
     md: {
       width: "992px",
