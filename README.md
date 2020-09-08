@@ -1,21 +1,21 @@
-# Start boilerplate
+# Request infrastructure
 
-## Project setup
+Автоматизация оценки и запроса инфраструктуры (ЦИ)
+
+## Установка проекта
+
 ```
 npm install
 ```
 
-### Compiles and hot-reloads for development
+### Режим разработки
+
 ```
 npm run serve
 ```
 
-### Compiles and minifies for production
+### Режим production
+
 ```
 npm run build
-```
-
-### Lints and fixes files
-```
-npm run lint
 ```

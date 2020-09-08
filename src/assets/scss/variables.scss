@@ -1,0 +1,29 @@
+// Fonts
+$mainFont: "Montserrat", sans-serif;
+$mainFontColor: #000;
+$mainFontSize: 16px;
+$mainFontWeight: 400;
+$mainLineHeight: 1.3;
+
+// Colors
+$default-color: #ffffff;
+$success-color: #1ec16f;
+$red: #e6000e;
+$red-hover: #ff0010;
+$warning-color: #ff5100;
+
+// System colors
+$black: #000;
+$black-light: rgba(0, 0, 0, 0.5);
+$gray: #c4c7cc;
+$gray-light: #dce0e6;
+$fog: #f5f7fa;
+$fog-hover: #ebeff5;
+$disabled: #f7f9fa;
+
+// Animations
+$anim: cubic-bezier(0.58, 0.3, 0.005, 1);
+$animSpeed: 0.4s;
+
+// Shadows
+$shadowBase: 0 0 30px rgba(0, 0, 0, 0.2);

@@ -1,7 +1,7 @@
 import apiCall from "@/tests/mocksApi";
 import Vue from "vue";
 import { USER_REQUEST_URL } from "@/api/endPoints";
-import {ability, defineAbilityFor} from '@/services/userAbilities';
+import { ability, defineAbilityFor } from "@/services/userAbilities";
 
 const state = { status: "", profile: {} };
 
@@ -28,10 +28,10 @@ const actions = {
     apiCall({ url: USER_REQUEST_URL(), data: user })
       .then((resp) => {
         // TODO: Удалить после связки с бекендом
-        localStorage.setItem('profile', JSON.stringify(resp))
-        // 
-        const rules = defineAbilityFor(resp);
-        ability.update(rules);
+        localStorage.setItem("profile", JSON.stringify(resp));
+        // -
+        const role = defineAbilityFor(resp);
+        ability.update(role);
 
         commit("USER_SUCCESS", resp);
       })

@@ -1,17 +1,13 @@
 $columns: 12;
 $atom: (100% / $columns);
 
-$break_notebook: 1400px;
-$break_xxl: 1280px;
-$break_xl: 1220px;
-$break_lg: 1100px;
+$break_xl: 1600px;
+$break_lg: 1200px;
 $break_md: 992px;
 $break_sm: 767px;
 $break_xs: 360px;
 
 $offset: 30px;
-$offset_notebook: $offset;
-$offset_xxl: $offset;
 $offset_xl: $offset;
 $offset_lg: $offset;
 $offset_md: $offset;
@@ -19,8 +15,6 @@ $offset_sm: $offset;
 $offset_xs: $offset;
 
 $offset_one_side: ($offset / 2);
-$offset_notebook_one_side: ($offset_notebook / 2);
-$offset_xxl_one_side: ($offset_xxl / 2);
 $offset_xl_one_side: ($offset_xl / 2);
 $offset_lg_one_side: ($offset_lg / 2);
 $offset_md_one_side: ($offset_md / 2);
@@ -51,7 +45,7 @@ $fields_sm: 15px;
 }
 
 @mixin wrapper(){
-    max-width: 1200px;
+    max-width: 1400px;
     margin: 0 auto;
     @include wrapper-full();
 }
@@ -94,16 +88,6 @@ $fields_sm: 15px;
 @mixin size($n){
     $val: 100% / $columns * $n;
     width: #{calc(#{$val} - #{$offset})};
-}
-
-@mixin size-notebook($n){
-    $val: 100% / $columns * $n;
-    @include notebook(width, #{calc(#{$val} - #{$offset_notebook})});
-}
-
-@mixin size-xxl($n){
-    $val: 100% / $columns * $n;
-    @include xxl(width, #{calc(#{$val} - #{$offset_xxl})});
 }
 
 @mixin size-xl($n){
@@ -161,70 +145,6 @@ $fields_sm: 15px;
 @mixin shift-padding-right($n){
     $val: 100% / $columns * $n;
     padding-right: #{calc(#{$val} + #{$offset_one_side})};
-}
-
-@mixin shift-notebook($n){
-    $val: 100% / $columns * $n;
-    @include notebook(margin-left, #{calc(#{$val} + #{$offset_notebook_one_side})});
-    @include notebook(margin-right, #{calc(#{$val} + #{$offset_notebook_one_side})});
-}
-
-@mixin shift-notebook-left($n){
-    $val: 100% / $columns * $n;
-    @include notebook(margin-left, #{calc(#{$val} + #{$offset_notebook_one_side})});
-}
-
-@mixin shift-notebook-right($n){
-    $val: 100% / $columns * $n;
-    @include notebook(margin-right, #{calc(#{$val} + #{$offset_notebook_one_side})});
-}
-
-@mixin shift-notebook-padding($n){
-    $val: 100% / $columns * $n;
-    @include notebook(padding-left, #{calc(#{$val} + #{$offset_notebook_one_side})});
-    @include notebook(padding-right, #{calc(#{$val} + #{$offset_notebook_one_side})});
-}
-
-@mixin shift-notebook-padding-left($n){
-    $val: 100% / $columns * $n;
-    @include notebook(padding-left, #{calc(#{$val} + #{$offset_notebook_one_side})});
-}
-
-@mixin shift-notebook-padding-right($n){
-    $val: 100% / $columns * $n;
-    @include notebook(padding-right, #{calc(#{$val} + #{$offset_notebook_one_side})});
-}
-
-@mixin shift-xxl($n){
-    $val: 100% / $columns * $n;
-    @include xxl(margin-left, #{calc(#{$val} + #{$offset_xxl_one_side})});
-    @include xxl(margin-right, #{calc(#{$val} + #{$offset_xxl_one_side})});
-}
-
-@mixin shift-xxl-left($n){
-    $val: 100% / $columns * $n;
-    @include xxl(margin-left, #{calc(#{$val} + #{$offset_xxl_one_side})});
-}
-
-@mixin shift-xxl-right($n){
-    $val: 100% / $columns * $n;
-    @include xxl(margin-right, #{calc(#{$val} + #{$offset_xxl_one_side})});
-}
-
-@mixin shift-xxl-padding($n){
-    $val: 100% / $columns * $n;
-    @include xxl(padding-left, #{calc(#{$val} + #{$offset_xxl_one_side})});
-    @include xxl(padding-right, #{calc(#{$val} + #{$offset_xxl_one_side})});
-}
-
-@mixin shift-xxl-padding-left($n){
-    $val: 100% / $columns * $n;
-    @include xxl(padding-left, #{calc(#{$val} + #{$offset_xxl_one_side})});
-}
-
-@mixin shift-xxl-padding-right($n){
-    $val: 100% / $columns * $n;
-    @include xxl(padding-right, #{calc(#{$val} + #{$offset_xxl_one_side})});
 }
 
 @mixin shift-xl($n){
@@ -385,30 +305,6 @@ $fields_sm: 15px;
 @mixin shift-xs-padding-right($n){
     $val: 100% / $columns * $n;
     @include xs(padding-right, #{calc(#{$val} + #{$offset_xs_one_side})});
-}
-
-@mixin notebook($name, $value){
-    @media screen and (max-width: $break_notebook){
-        #{$name}: $value;
-    }
-}
-
-@mixin notebook-block(){
-    @media screen and (max-width: $break_notebook){
-        @content;
-    }
-}
-
-@mixin xxl($name, $value){
-    @media screen and (max-width: $break_xxl){
-        #{$name}: $value;
-    }
-}
-
-@mixin xxl-block(){
-    @media screen and (max-width: $break_xxl){
-        @content;
-    }
 }
 
 @mixin xl($name, $value){

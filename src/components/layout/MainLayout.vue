@@ -1,20 +1,31 @@
 <template lang="pug">
   include ../../utils/bem/index.pug
-  +b.container
-    t-header(:user="profile")
+  +b.main-layout
+    the-header
     slot
+    the-footer
 </template>
 
 <script>
-import { THeader } from "@/libs/tander-ui";
+import TheHeader from "@/components/ui/TheHeader";
+import TheFooter from "@/components/ui/TheFooter";
 import { mapGetters } from "vuex";
 
 export default {
+  name: "MainLayout",
   components: {
-    THeader
+    TheHeader,
+    TheFooter,
   },
   computed: {
-    ...mapGetters({profile: 'User/getProfile'})
-  }
+    ...mapGetters({ profile: "User/getProfile" }),
+  },
 };
 </script>
+<style lang="scss">
+.main-layout {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+</style>

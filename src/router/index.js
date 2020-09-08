@@ -2,7 +2,7 @@ import Vue from "vue";
 import VueRouter from "vue-router";
 import VueRouteMiddleware from "vue-route-middleware";
 import isAuth from "@/middleware/isAuth";
-import {ability} from '@/services/userAbilities';
+import { ability } from "@/services/userAbilities";
 Vue.use(VueRouter);
 
 const routes = [
@@ -15,27 +15,9 @@ const routes = [
     },
   },
   {
-    path: "/account",
-    name: "Account",
-    meta: {
-      middleware: [isAuth],
-    },
-    component: () => import("../views/Account.vue"),
-  },
-  {
     path: "/login",
     name: "Login",
     component: () => import("../views/Login.vue"),
-  },
-  {
-    path: "/admin",
-    name: "Admin",
-    component: () => import("../views/Admin.vue"),
-  },
-  {
-    path: "/manager",
-    name: "Manager",
-    component: () => import("../views/Manager.vue"),
   },
   {
     path: "/404",
@@ -55,7 +37,6 @@ const router = new VueRouter({
 });
 
 router.beforeEach(VueRouteMiddleware());
-
 
 // router.beforeEach((to, from, next) => {
 //   const canNavigate = to.matched.some(route => {

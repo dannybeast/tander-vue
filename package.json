@@ -1,5 +1,5 @@
 {
-  "name": "start-boilerplate-spa",
+  "name": "Request-infrastructure",
   "version": "1.0.0",
   "private": true,
   "scripts": {
@@ -12,8 +12,11 @@
     "@casl/vue": "^1.1.1",
     "core-js": "^3.6.5",
     "vue": "^2.6.11",
+    "vue-js-modal": "^2.0.0-rc.6",
+    "vue-meta": "^2.4.0",
     "vue-notification": "^1.3.20",
     "vue-router": "^3.2.0",
+    "vuelidate": "^0.7.5",
     "vuex": "^3.4.0"
   },
   "devDependencies": {

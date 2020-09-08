@@ -2,17 +2,23 @@ import Vue from "vue";
 import App from "./App.vue";
 import router from "./router";
 import store from "./store";
+import Vuelidate from "vuelidate";
 import Notifications from "vue-notification";
-import { abilitiesPlugin } from '@casl/vue';
-import {ability} from '@/services/userAbilities';
-import { Can } from '@casl/vue';
+import VueMeta from "vue-meta";
+import { abilitiesPlugin } from "@casl/vue";
+import { ability } from "@/services/userAbilities";
+import { Can } from "@casl/vue";
+import VModal from "vue-js-modal";
 
 // Global components
-Vue.component('Can', Can);
+Vue.component("Can", Can);
 
 // Use
 Vue.use(abilitiesPlugin, ability);
 Vue.use(Notifications);
+Vue.use(Vuelidate);
+Vue.use(VueMeta, { refreshOnceOnNavigation: false });
+Vue.use(VModal, { dynamicDefault: { draggable: true, resizable: true } });
 
 Vue.config.productionTip = false;
 
