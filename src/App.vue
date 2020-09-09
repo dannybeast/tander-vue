@@ -4,7 +4,8 @@
     notifications(group="foo" position="bottom right")
     main-layout
       t-loader(v-if="authStatus === 'loading'")
-      router-view(v-else)
+      transition(v-else name="fade" mode="out-in")
+        router-view
        
 </template>
 

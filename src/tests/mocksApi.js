@@ -1,7 +1,7 @@
 import { infrastructureMocks, infrastructureMethods } from "./Infrastructure";
 import { authMocks, authMethods } from "./Auth";
 
-const delay = 100;
+const delay = 300;
 const mocks = {
   ...authMocks,
   ...infrastructureMocks,
