@@ -1,11 +1,12 @@
 import apiCall from "@/tests/mocksApi";
-import Vue from "vue";
+
 import {
-  COPY_INFRASTUCTURE_URL,
-  REMOVE_INFRASTUCTURE_URL,
   GET_INFRASTUCTURE_URL,
   GET_BY_ID_INFRASTUCTURE_URL,
+  UPDATE_INFRASTUCTURE_URL,
   ADD_INFRASTUCTURE_URL,
+  COPY_INFRASTUCTURE_URL,
+  REMOVE_INFRASTUCTURE_URL,
 } from "@/api/endPoints";
 
 const state = {
@@ -40,104 +41,137 @@ const state = {
 };
 
 const actions = {
-  GET_INFRASTUCTURE: ({ commit, dispatch }) => {
+  getInfrastructure: ({ commit, dispatch }) => {
     return new Promise((resolve, reject) => {
-      commit("GET_INFRASTUCTURE");
+      commit("getInfrastructure");
 
       apiCall({ url: GET_INFRASTUCTURE_URL(), method: "GET" })
         .then((resp) => {
-          commit("GET_INFRASTUCTURE_SUCCESS", resp);
+          commit("getInfrastructureSuccess", resp);
           resolve(resp);
         })
         .catch((err) => {
-          commit("INFRASTUCTURE_ERROR", err);
+          commit("infrastructureError", err);
           reject(err);
         });
     });
   },
-  GET_BY_ID_INFRASTUCTURE: ({ commit, dispatch }, id) => {
+  getInfrastructureById: ({ commit, dispatch }, id) => {
     return new Promise((resolve, reject) => {
-      apiCall({ url: GET_BY_ID_INFRASTUCTURE_URL(id), method: "GET" })
+      apiCall({
+        url: GET_BY_ID_INFRASTUCTURE_URL(id),
+        id,
+        method: "GET",
+      })
         .then((resp) => {
-          commit("GET_BY_ID_INFRASTUCTURE_SUCCESS", resp);
+          commit("getInfrastructureByIdSuccess", resp);
           resolve(resp);
         })
         .catch((err) => {
-          commit("INFRASTUCTURE_ERROR", err);
+          commit("infrastructureError", err);
           reject(err);
         });
     });
   },
-  ADD_INFRASTUCTURE: ({ commit, dispatch }, data) => {
+  updateInfrastructure: ({ commit, dispatch }, data) => {
     return new Promise((resolve, reject) => {
-      commit("ADD_INFRASTUCTURE");
+      apiCall({
+        url: UPDATE_INFRASTUCTURE_URL(data.id),
+        id: data.id,
+        data: data,
+        method: "PUT",
+      })
+        .then((resp) => {
+          commit("updateInfrastructureSuccess");
+          dispatch("getInfrastructure").then(() => {
+            resolve(resp);
+          });
+        })
+        .catch((err) => {
+          commit("infrastructureError", err);
+          reject(err);
+        });
+    });
+  },
+  addInfrastructure: ({ commit, dispatch }, data) => {
+    return new Promise((resolve, reject) => {
       apiCall({ url: ADD_INFRASTUCTURE_URL(), data: data, method: "POST" })
         .then((resp) => {
-          commit("ADD_INFRASTUCTURE_SUCCESS", resp);
-          dispatch("GET_INFRASTUCTURE");
-          resolve(resp);
+          commit("addInfrastructureSuccess", resp);
+          dispatch("getInfrastructure").then(() => {
+            resolve(resp);
+          });
         })
         .catch((err) => {
-          commit("INFRASTUCTURE_ERROR", err);
+          commit("infrastructureError", err);
           reject(err);
         });
     });
   },
-  COPY_INFRASTUCTURE: ({ commit, dispatch }, id) => {
+  copyInfrastructure: ({ commit, dispatch }, id) => {
     return new Promise((resolve, reject) => {
-      apiCall({ url: COPY_INFRASTUCTURE_URL(), data: id, method: "POST" })
+      apiCall({ url: COPY_INFRASTUCTURE_URL(id), id, method: "POST" })
         .then(() => {
-          dispatch("GET_INFRASTUCTURE");
-          resolve();
+          commit("copyInfrastructureSuccess");
+          dispatch("getInfrastructure").then(() => {
+            resolve();
+          });
         })
         .catch((err) => {
-          commit("INFRASTUCTURE_ERROR", err);
+          commit("infrastructureError", err);
           reject(err);
         });
     });
   },
-  REMOVE_INFRASTUCTURE: ({ commit, dispatch }, id) => {
+  deleteInfrastructure: ({ commit, dispatch }, id) => {
     return new Promise((resolve, reject) => {
-      apiCall({ url: REMOVE_INFRASTUCTURE_URL(), data: id, method: "DELETE" })
+      apiCall({ url: REMOVE_INFRASTUCTURE_URL(id), id, method: "DELETE" })
         .then(() => {
-          dispatch("GET_INFRASTUCTURE");
-          resolve();
+          dispatch("getInfrastructure").then(() => {
+            commit("deleteInfrastructureSuccess");
+            resolve();
+          });
         })
         .catch((err) => {
-          commit("INFRASTUCTURE_ERROR", err);
+          commit("infrastructureError", err);
           reject(err);
         });
     });
   },
 };
 const mutations = {
-  GET_INFRASTUCTURE: (state) => {
+  getInfrastructure: (state) => {
     state.status = "loading";
   },
-  GET_INFRASTUCTURE_SUCCESS: (state, resp) => {
+  getInfrastructureSuccess: (state, resp) => {
     state.status = "success";
     state.infrastructureList = resp;
   },
-
-  GET_BY_ID_INFRASTUCTURE_SUCCESS: (state, resp) => {
+  getInfrastructureByIdSuccess: (state, resp) => {
     state.status = "success";
     state.currentInfrastructure = resp;
   },
-  ADD_INFRASTUCTURE: (state) => {
-    state.status = "loading";
+  copyInfrastructureSuccess: (state) => {
+    state.status = "success";
   },
-  ADD_INFRASTUCTURE_SUCCESS: (state, resp) => {
+  updateInfrastructureSuccess: (state) => {
+    state.status = "success";
+  },
+  deleteInfrastructureSuccess: (state) => {
+    state.status = "success";
+  },
+  addInfrastructureSuccess: (state, resp) => {
     state.status = "success";
     state.infrastructureList.push(resp);
   },
-  INFRASTUCTURE_ERROR: (state) => {
+  infrastructureError: (state) => {
     state.status = "error";
   },
 };
 const getters = {
-  getInfrastructureNames: (state) => state.infrastructureNames,
-  getInfrastructureList: (state) => state.infrastructureList,
-  infrastructureStatus: (state) => state.status,
+  getKeys: (state) => state.infrastructureNames,
+  getList: (state) => state.infrastructureList,
+  getStatus: (state) => state.status,
 };
 export default {
   namespaced: true,

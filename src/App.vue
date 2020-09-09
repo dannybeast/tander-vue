@@ -28,7 +28,7 @@ export default {
     if (this.isAuth) {
       // TODO
       this.$store.dispatch(
-        "User/USER_REQUEST",
+        "User/userRequest",
         JSON.parse(localStorage.getItem("profile"))
       );
     }
@@ -39,8 +39,10 @@ export default {
 @import url("https://fonts.googleapis.com/css2?family=Montserrat:wght@100;300;400;500;600;700&display=swap");
 // https://materialdesignicons.com/
 @import url("https://cdn.jsdelivr.net/npm/@mdi/font@5.x/css/materialdesignicons.min.css");
+@import "vue-select/src/scss/vue-select.scss";
 @import "@/assets/scss/reset";
 @import "@/assets/scss/tables";
+@import "@/assets/scss/fields";
 @import "@/assets/scss/modals";
 html,
 body,

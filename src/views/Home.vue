@@ -9,21 +9,23 @@
         t-button(size="small" red label="Добавить" icon="plus-circle-outline" @onClick="openModalRequest()")
       
       +e.content
+        t-loader(v-if="infrastructureStatus === 'loading'")
+        article(v-else)
+          //
+          section
+            t-table(:tableHeadersList="tableHeadersList" :tableBodyList="tableBodyList" @copy="copy($event)" @edit="edit($event)" @remove="remove($event)")
+          
+          //
+          section(v-if="tableBodyList.length")
+            total-counts
 
-        //
-        section
-          t-loader(v-if="infrastructureStatus === 'loading'")
-          t-table(v-else :tableHeadersList="tableHeadersList" :tableBodyList="tableBodyList" @copy="copy($event)" @edit="edit($event)" @remove="remove($event)")
-        
-        //
-        section(v-if="tableBodyList.length")
-          total-counts
-
-    modal(name="requestModal" :width="1000" height="auto" :scrollable="true")
+    // Modal добавление
+    modal(name="requestModal" :width="modalWidth" height="auto" )
       request-form(@successRequest="closeModalRequest()")
     
-    modal(name="editModal" :width="1000" height="auto" :scrollable="true")
-      request-form(@successEdit="closeModalEdit()" edit="true")
+    // Modal редактирование
+    modal(name="editModal" :width="modalWidth" height="auto")
+      request-form(@successRequest="closeModalEdit()" edit="true" :editData="editData")
       
 
     //- +b.DIV.typography(v-if="$can('read', 'AdminText')")
@@ -49,19 +51,21 @@ export default {
   data() {
     return {
       title: title,
+      editData: "",
+      modalWidth: 1100,
     };
   },
   metaInfo: {
     title: title,
   },
   created() {
-    this.$store.dispatch("Infrastructure/GET_INFRASTUCTURE");
+    this.$store.dispatch("Infrastructure/getInfrastructure");
   },
   computed: {
     ...mapGetters({
-      tableHeadersList: "Infrastructure/getInfrastructureNames",
-      tableBodyList: "Infrastructure/getInfrastructureList",
-      infrastructureStatus: "Infrastructure/infrastructureStatus",
+      tableHeadersList: "Infrastructure/getKeys",
+      tableBodyList: "Infrastructure/getList",
+      infrastructureStatus: "Infrastructure/getStatus",
     }),
   },
   methods: {
@@ -70,16 +74,12 @@ export default {
     },
     closeModalRequest() {
       this.$modal.hide("requestModal");
-      this.$notify({
-        group: "foo",
-        type: "success",
-        title: "Успешно добавлено",
-      });
     },
-    copy({ obj, id }) {
-      this.$store.dispatch("Infrastructure/COPY_INFRASTUCTURE", id).then(() => {
-        // TODO
-        this.tableBodyList.push(obj);
+    closeModalEdit() {
+      this.$modal.hide("editModal");
+    },
+    copy(id) {
+      this.$store.dispatch("Infrastructure/copyInfrastructure", id).then(() => {
         this.$notify({
           group: "foo",
           type: "success",
@@ -87,18 +87,18 @@ export default {
         });
       });
     },
-    edit({ id }) {
-      this.$modal.show("editModal");
+    edit(id) {
       this.$store
-        .dispatch("Infrastructure/GET_BY_ID_INFRASTUCTURE", id)
-        .then(() => {});
+        .dispatch("Infrastructure/getInfrastructureById", id)
+        .then((resp) => {
+          this.editData = resp;
+          this.$modal.show("editModal");
+        });
     },
-    remove({ ind, id }) {
+    remove(id) {
       this.$store
-        .dispatch("Infrastructure/REMOVE_INFRASTUCTURE", id)
+        .dispatch("Infrastructure/deleteInfrastructure", id)
         .then(() => {
-          // TODO
-          this.tableBodyList.splice(ind, 1);
           this.$notify({
             group: "foo",
             type: "success",

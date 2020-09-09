@@ -9,9 +9,11 @@ import { abilitiesPlugin } from "@casl/vue";
 import { ability } from "@/services/userAbilities";
 import { Can } from "@casl/vue";
 import VModal from "vue-js-modal";
+import vSelect from "vue-select";
 
 // Global components
 Vue.component("Can", Can);
+Vue.component("v-select", vSelect);
 
 // Use
 Vue.use(abilitiesPlugin, ability);

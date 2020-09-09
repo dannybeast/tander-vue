@@ -6,26 +6,26 @@ import { ability, defineAbilityFor } from "@/services/userAbilities";
 const state = { status: "", profile: {} };
 
 const mutations = {
-  USER_REQUEST: (state) => {
+  userRequest: (state) => {
     state.status = "loading";
   },
-  USER_SUCCESS: (state, resp) => {
+  userSuccess: (state, resp) => {
     state.status = "success";
     Vue.set(state, "profile", resp);
   },
-  USER_ERROR: (state) => {
+  userError: (state) => {
     state.status = "error";
   },
-  AUTH_LOGOUT: (state) => {
+  authLogout: (state) => {
     state.profile = {};
   },
 };
 
 const actions = {
-  USER_REQUEST: ({ commit, dispatch }, user) => {
-    commit("USER_REQUEST");
+  userRequest: ({ commit, dispatch }, user) => {
+    commit("userRequest");
 
-    apiCall({ url: USER_REQUEST_URL(), data: user })
+    apiCall({ url: USER_REQUEST_URL(), data: user, method: "GET" })
       .then((resp) => {
         // TODO: Удалить после связки с бекендом
         localStorage.setItem("profile", JSON.stringify(resp));
@@ -33,11 +33,11 @@ const actions = {
         const role = defineAbilityFor(resp);
         ability.update(role);
 
-        commit("USER_SUCCESS", resp);
+        commit("userSuccess", resp);
       })
       .catch(() => {
-        commit("USER_ERROR");
-        dispatch("Auth/AUTH_LOGOUT", null, { root: true });
+        commit("userError");
+        dispatch("Auth/authLogout", null, { root: true });
       });
   },
 };

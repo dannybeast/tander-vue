@@ -10,13 +10,13 @@
         tr(v-for="(td, tdInd) in tableBodyList" :key="tdInd")
           td(v-for="(tdValue, tdValueInd) in Object.values(td)" :key="tdValueInd") {{tdValue}}
           td.td-button
-            button(@click="copy(td, Object.values(td)[0])" title="Копировать")
+            button(@click="copy(Object.values(td)[0])" title="Копировать")
               i.mdi.mdi-content-copy
           td.td-button
             button(@click="edit(Object.values(td)[0])" title="Редактировать")
               i.mdi.mdi-pencil
           td.td-button
-            button(@click="remove(tdInd, Object.values(td)[0])" title="Удалить")
+            button(@click="remove(Object.values(td)[0])" title="Удалить")
               i.mdi.mdi-delete
 
     p(v-else) {{emptyText}}
@@ -38,14 +38,14 @@ export default {
     tableBodyList: Array,
   },
   methods: {
-    copy(obj, id) {
-      this.$emit("copy", { obj, id });
+    copy(id) {
+      this.$emit("copy", id);
     },
     edit(id) {
-      this.$emit("edit", { id });
+      this.$emit("edit", id);
     },
-    remove(ind, id) {
-      this.$emit("remove", { ind, id });
+    remove(id) {
+      this.$emit("remove", id);
     },
   },
 };
@@ -60,14 +60,19 @@ export default {
   th {
     display: none;
     &.td-button,
-    &:nth-child(-n + 10) {
+    &:nth-child(-n + 11) {
       display: table-cell;
+    }
+    &:first-child {
+      display: none;
     }
   }
   th {
     font-weight: 500;
     color: $black-light;
     font-size: 12px;
+    line-height: 1.15;
+    vertical-align: bottom;
   }
   tr {
     cursor: pointer;
@@ -82,6 +87,7 @@ export default {
     width: 50px;
     button {
       cursor: pointer;
+      background: transparent;
       i {
         font-size: 24px;
         color: $black;

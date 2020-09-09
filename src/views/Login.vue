@@ -3,23 +3,16 @@
   
   +b.login
     +e.content
-      +e.H3.title Вход в систему:
-
+      +e.H3.title {{title}}
       +b.FORM.auth-form
         
         t-field(label="Логин:" v-model="$v.authForm.username.$model" :error="$v.authForm.username.$error")
           
         t-field(label="Пароль:" type="password" v-model="$v.authForm.password.$model" :error="$v.authForm.password.$error")
-      
-        +b.t-field
-          +b.LABEL.checkbox
-            input(type="radio" name="role" value="admin" v-model="authForm.role")
-            span Админ
 
-        +b.t-field
-          +b.LABEL.checkbox
-            input(type="radio" name="role" value="manager" v-model="authForm.role" :val="authForm.role")
-            span Пользователь
+        t-radio(label="Админ" value="admin" v-model="authForm.role" name="role")
+
+        t-radio(label="Пользователь" value="manager" v-model="authForm.role" name="role")
         
         +e.bottom
           t-button(size="medium" red label="Войти" @onClick="login")
@@ -30,14 +23,19 @@
 import { required, minLength, between } from "vuelidate/lib/validators";
 import TField from "@/components/ui/TField";
 import TButton from "@/components/ui/TButton";
+import TRadio from "@/components/ui/TRadio";
+
+const title = "Вход в систему:";
 
 export default {
-  name: "Home",
+  name: "Login",
+
   metaInfo: {
-    title: "Вход в систему",
+    title: title,
   },
   data() {
     return {
+      title: title,
       authForm: {
         username: "",
         password: "",
@@ -58,7 +56,7 @@ export default {
         });
       } else {
         this.submitStatus = "PENDING";
-        this.$store.dispatch("Auth/AUTH_REQUEST", this.authForm).then(() => {
+        this.$store.dispatch("Auth/authRequest", this.authForm).then(() => {
           this.submitStatus = "OK";
         });
       }
@@ -76,52 +74,11 @@ export default {
       },
     },
   },
-  components: { TButton, TField },
+  components: { TButton, TField, TRadio },
 };
 </script>
 
 <style lang="scss">
-// Checkbox
-$checkbox-size: 24px;
-$checkbox-border-radius: 4px;
-.checkbox {
-  cursor: pointer;
-  span {
-    display: flex;
-    align-items: center;
-    &:before {
-      content: "";
-      width: $checkbox-size;
-      height: $checkbox-size;
-      border-radius: $checkbox-border-radius;
-      border: solid 2px $gray-light;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      margin-right: 15px;
-      flex-shrink: 0;
-      color: #fff;
-      font: normal normal normal 16px/1 "Material Design Icons";
-    }
-    &:hover {
-      &:before {
-        border-color: $gray;
-      }
-    }
-  }
-
-  input {
-    display: none;
-    &:checked + span {
-      &:before {
-        content: "\F0E1E";
-        border-color: $red;
-        background: $red;
-      }
-    }
-  }
-}
-//-
 .auth-form {
   padding: 30px;
   background: #fff;
@@ -130,6 +87,9 @@ $checkbox-border-radius: 4px;
   max-width: 500px;
   .t-field {
     margin-bottom: 20px;
+  }
+  .t-radio {
+    margin-bottom: 10px;
   }
   &__bottom {
     margin-top: 30px;

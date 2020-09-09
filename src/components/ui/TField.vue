@@ -1,8 +1,8 @@
 <template lang="pug">
   include ../../utils/bem/index.pug
-  +b.t-field(:class="{ 't-field--error': error }")
+  +b.t-field(:class="classes")
     label(v-if="label" :title="label") {{label}}
-    input.t-field__input(@input="handleInput($event.target.value)" :type="type" :min="minValue") 
+    input.t-field__input(:value="value" @input="handleInput($event.target.value)" :type="type" :min="minValue" :disabled="disabled") 
     slot
 </template>
 
@@ -12,73 +12,34 @@ export default {
   props: {
     label: String,
     value: String,
+    disabled: Boolean,
     min: {
       type: String,
-      default: "0"
+      default: "0",
     },
     type: {
       type: String,
-      default: "text"
+      default: "text",
     },
-    error: Boolean
+    error: Boolean,
   },
   computed: {
+    classes() {
+      return {
+        "t-field--error": this.error,
+        "t-field--disabled": this.disabled,
+      };
+    },
     minValue() {
       return this.type != "number" ? null : this.min;
-    }
+    },
   },
   methods: {
     handleInput(value) {
       this.$emit("input", value);
-    }
-  }
+    },
+  },
 };
 </script>
 
-<style lang="scss">
-// Field
-$field-height: 45px;
-$textarea-height: $field-height * 2;
-$field-font-size: 16px;
-$field-border-radius: 12px;
-.t-field {
-  $parent: &;
-  label {
-    display: block;
-    font-size: 14px;
-    font-weight: 600;
-    margin-bottom: 8px;
-  }
-  &__input,
-  &__textarea {
-    border: solid 1px $gray-light;
-    height: $field-height;
-    width: 100%;
-    font-size: $field-font-size;
-    border-radius: $field-border-radius;
-    padding-left: 15px;
-    color: $black;
-    &::placeholder {
-      color: $black-light;
-    }
-    &:hover,
-    &:focus {
-      border-color: $gray;
-    }
-  }
-  &__textarea {
-    height: $textarea-height;
-    padding-top: 10px;
-  }
-  &__error-message {
-    margin-top: 5px;
-    color: $red;
-  }
-  &--error {
-    #{$parent}__input {
-      border-color: $red;
-    }
-  }
-}
-//-
-</style>
+<style lang="scss"></style>
