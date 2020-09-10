@@ -1,0 +1,75 @@
+$checkbox-size: 24px;
+$checkbox-border-radius: 4px;
+.t-radio,
+.t-checkbox {
+  cursor: pointer;
+  display: block;
+  span {
+    display: flex;
+    align-items: center;
+    &:before {
+      content: "";
+      width: $checkbox-size;
+      height: $checkbox-size;
+      border-radius: $checkbox-border-radius;
+      border: solid 2px $gray-light;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-right: 15px;
+      flex-shrink: 0;
+      color: #fff;
+      font: normal normal normal 16px/1 "Material Design Icons";
+    }
+    &:hover {
+      &:before {
+        border-color: $gray;
+      }
+    }
+  }
+  input {
+    display: none;
+    &:checked + span {
+      &:before {
+        content: "\F0E1E";
+        border-color: $red;
+        background: $red;
+      }
+    }
+  }
+  &.error {
+    span {
+      color: $red;
+      &:before {
+        border-color: $red;
+      }
+    }
+  }
+  &.disabled {
+    span {
+      cursor: not-allowed;
+      color: $gray;
+      &:before {
+        border-color: $gray-light;
+      }
+    }
+  }
+}
+
+.t-radio {
+  span {
+    &:before {
+      border-radius: 50%;
+    }
+  }
+  input {
+    &:checked + span {
+      &:before {
+        content: "";
+        background: #fff;
+        border-color: $red;
+        border-width: $checkbox-size/3;
+      }
+    }
+  }
+}

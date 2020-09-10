@@ -1,13 +1,13 @@
 <template lang="pug">
   include ../../utils/bem/index.pug
-  +b.LABEL.t-radio(:class="classes")
+  +b.LABEL.t-checkbox(:class="classes")
     input(
       v-bind="$attrs" 
-      type="radio" 
+      type="checkbox" 
       :value="value" 
       :checked="isSelected" 
       :disabled="disabled" 
-      @change="$emit('input', value)" 
+      @change="$emit('input', $event.target.checked)" 
       @focus="focused = true" 
       @blur="focused = false")
     span {{label}}
@@ -15,7 +15,7 @@
 
 <script>
 export default {
-  name: "TRadio",
+  name: "TCheckbox",
   data: () => ({
     focused: false,
   }),
@@ -32,6 +32,7 @@ export default {
       type: [String, Number, Boolean, Object],
       required: true,
     },
+    error: Boolean,
     label: String,
     disabled: Boolean,
   },
@@ -41,22 +42,12 @@ export default {
         checked: this.isSelected,
         disabled: this.disabled,
         focused: this.focused,
+        error: this.error,
       };
     },
-    isValueObject() {
-      return this.value !== null && typeof this.value === "object";
-    },
-    isSelected() {
-      if (this.isValueObject) {
-        return this.isObjectEqual(this.model, this.value);
-      }
 
-      return this.model === this.value;
-    },
-  },
-  methods: {
-    isObjectEqual(a, b) {
-      return JSON.stringify(a) === JSON.stringify(b);
+    isSelected() {
+      return this.value;
     },
   },
 };

@@ -3,9 +3,9 @@
   #app
     notifications(group="foo" position="bottom right")
     main-layout
-      t-loader(v-if="authStatus === 'loading'")
-      transition(v-else name="fade" mode="out-in")
-        router-view
+      transition(name="fade" mode="out-in")
+        t-loader(v-if="authStatus === 'loading'")
+        router-view(v-else)
        
 </template>
 
@@ -38,12 +38,12 @@ export default {
 </script>
 <style lang="scss">
 @import url("https://fonts.googleapis.com/css2?family=Montserrat:wght@100;300;400;500;600;700&display=swap");
-// https://materialdesignicons.com/
+// Info icons: https://materialdesignicons.com/
 @import url("https://cdn.jsdelivr.net/npm/@mdi/font@5.x/css/materialdesignicons.min.css");
-@import "vue-select/src/scss/vue-select.scss";
 @import "@/assets/scss/reset";
 @import "@/assets/scss/tables";
 @import "@/assets/scss/fields";
+@import "@/assets/scss/checkboxAndRadio";
 @import "@/assets/scss/modals";
 html,
 body,
@@ -85,5 +85,14 @@ body,
       }
     }
   }
+}
+
+.fade-enter-active,
+.fade-leave-active {
+  transition: opacity 0.2s cubic-bezier(1, 0.5, 0.8, 1);
+}
+.fade-enter,
+.fade-leave-to {
+  opacity: 0;
 }
 </style>

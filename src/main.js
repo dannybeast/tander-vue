@@ -1,7 +1,7 @@
 import Vue from "vue";
-import App from "./App.vue";
-import router from "./router";
-import store from "./store";
+import App from "@/App.vue";
+import router from "@/router";
+import store from "@/store";
 import Vuelidate from "vuelidate";
 import Notifications from "vue-notification";
 import VueMeta from "vue-meta";
@@ -10,6 +10,7 @@ import { ability } from "@/services/userAbilities";
 import { Can } from "@casl/vue";
 import VModal from "vue-js-modal";
 import vSelect from "vue-select";
+import "@/filters";
 
 // Global components
 Vue.component("Can", Can);

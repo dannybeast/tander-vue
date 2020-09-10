@@ -2,7 +2,9 @@
   include ../../utils/bem/index.pug
   +b.t-field(:class="{ 't-field--error': error }")
     label(v-if="label") {{label}}
-    textarea.t-field__textarea(@input="handleInput($event.target.value)" :type="type" ) 
+    textarea.t-field__textarea(
+      @input="handleInput($event.target.value)" 
+      :type="type" ) 
     slot
 </template>
 
@@ -14,17 +16,16 @@ export default {
     value: String,
     type: {
       type: String,
-      default: "text"
+      default: "text",
     },
-    error: Boolean
+    error: Boolean,
   },
   methods: {
     handleInput(value) {
       this.$emit("input", value);
-    }
-  }
+    },
+  },
 };
 </script>
 
-<style lang="scss">
-</style>
+<style lang="scss"></style>

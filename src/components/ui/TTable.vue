@@ -4,23 +4,34 @@
     table(v-if="tableBodyList.length")
       thead
         tr
-          th(v-for="(th, thInd) in tableHeadersList" :key="thInd" ) {{th}}
+          th(
+            v-for="(th, thInd) in tableHeadersList" 
+            :key="thInd" ) {{th}}
           th(colspan='3').td-button
       tbody
-        tr(v-for="(td, tdInd) in tableBodyList" :key="tdInd")
-          td(v-for="(tdValue, tdValueInd) in Object.values(td)" :key="tdValueInd") {{tdValue}}
+        tr(
+          v-for="(td, tdInd) in tableBodyList" 
+          :key="tdInd")
+          td(
+            v-for="(tdValue, tdValueInd) in Object.values(td)" 
+            :key="tdValueInd") {{tdValue | formatNameInfrastructure(Object.keys(td)[tdValueInd])}}
           td.td-button
-            button(@click="copy(Object.values(td)[0])" title="Копировать")
+            button(
+              @click="copy(Object.values(td)[0])" 
+              title="Копировать")
               i.mdi.mdi-content-copy
           td.td-button
-            button(@click="edit(Object.values(td)[0])" title="Редактировать")
+            button(
+              @click="edit(Object.values(td)[0])" 
+              title="Редактировать")
               i.mdi.mdi-pencil
           td.td-button
-            button(@click="remove(Object.values(td)[0])" title="Удалить")
+            button(
+              @click="remove(Object.values(td)[0])" 
+              title="Удалить")
               i.mdi.mdi-delete
 
     p(v-else) {{emptyText}}
-
 </template>
 
 <script>
@@ -28,11 +39,13 @@ import { mapGetters } from "vuex";
 
 export default {
   name: "TTable",
+
   data() {
     return {
       emptyText: "Пусто...",
     };
   },
+
   props: {
     tableHeadersList: Array,
     tableBodyList: Array,

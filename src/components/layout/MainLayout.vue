@@ -2,7 +2,8 @@
   include ../../utils/bem/index.pug
   +b.main-layout
     the-header
-    slot
+    +e.content
+      slot
     the-footer
 </template>
 
@@ -27,5 +28,10 @@ export default {
   display: flex;
   flex-direction: column;
   min-height: 100vh;
+  &__content {
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+  }
 }
 </style>

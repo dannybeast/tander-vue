@@ -6,11 +6,11 @@ export function defineAbilityFor(user) {
   const { can, cannot, rules } = new AbilityBuilder();
 
   switch (user.role) {
-    case "admin":
-      can("read", "AdminText");
+    case "user":
+      can("read", "requestInfrastructure");
       break;
     case "manager":
-      can("read", "ManagerText");
+      can("read", "processInfrastructure");
       break;
   }
 

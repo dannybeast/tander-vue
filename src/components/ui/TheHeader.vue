@@ -38,6 +38,7 @@ export default {
   box-shadow: $shadowBase;
   padding: 15px 0;
   position: relative;
+  z-index: 3;
   &__row {
     display: flex;
     align-items: center;

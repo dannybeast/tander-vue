@@ -28,11 +28,12 @@ const actions = {
     apiCall({ url: USER_REQUEST_URL(), data: user, method: "GET" })
       .then((resp) => {
         // TODO: Удалить после связки с бекендом
+        // TODO: Сейчас пользователь хранится в localstorage
         localStorage.setItem("profile", JSON.stringify(resp));
-        // -
+        // Устанавливаем права
         const role = defineAbilityFor(resp);
         ability.update(role);
-
+        //-
         commit("userSuccess", resp);
       })
       .catch(() => {

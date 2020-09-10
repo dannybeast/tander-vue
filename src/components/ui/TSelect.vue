@@ -3,9 +3,15 @@
   +b.t-field(:class="{ 't-field--error': error }")
     label {{label}}
     +e.select-wrap
-      +e.SELECT.select( :value="value" :error="error" @input="handleInput($event.target.value)")
+      +e.SELECT.select( 
+        :value="value" 
+        :error="error" 
+        @input="handleInput($event.target.value)")
         option(:value="null") {{placeholder}}
-        option(v-for="option in options") {{option}}
+        option(
+          v-for="option in options" 
+          :value="option.value" 
+          :key="option.value") {{option.name}}
 </template>
 
 <script>
@@ -17,7 +23,7 @@ export default {
       type: String,
       default: "Выберите",
     },
-    value: String,
+    value: [String, Number],
     options: Array,
     error: Boolean,
   },

@@ -2,7 +2,12 @@
   include ../../utils/bem/index.pug
   +b.t-field(:class="classes")
     label(v-if="label" :title="label") {{label}}
-    input.t-field__input(:value="value" @input="handleInput($event.target.value)" :type="type" :min="minValue" :disabled="disabled") 
+    input.t-field__input(
+      :value="value" 
+      @input="handleInput($event.target.value)" 
+      :type="type" 
+      :min="minValue" 
+      :disabled="disabled") 
     slot
 </template>
 

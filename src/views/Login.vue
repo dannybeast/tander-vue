@@ -6,16 +6,35 @@
       +e.H3.title {{title}}
       +b.FORM.auth-form
         
-        t-field(label="Логин:" v-model="$v.authForm.username.$model" :error="$v.authForm.username.$error")
+        t-field(
+          label="Логин:" 
+          v-model="$v.authForm.username.$model" 
+          :error="$v.authForm.username.$error")
           
-        t-field(label="Пароль:" type="password" v-model="$v.authForm.password.$model" :error="$v.authForm.password.$error")
+        t-field(
+          label="Пароль:" 
+          type="password" 
+          v-model="$v.authForm.password.$model" 
+          :error="$v.authForm.password.$error")
 
-        t-radio(label="Админ" value="admin" v-model="authForm.role" name="role")
+        t-radio(
+          label="Пользователь" 
+          value="user" 
+          v-model="authForm.role" 
+          name="role")
 
-        t-radio(label="Пользователь" value="manager" v-model="authForm.role" name="role")
+        t-radio(
+          label="Менеджер" 
+          value="manager" 
+          v-model="authForm.role" 
+          name="role")
         
         +e.bottom
-          t-button(size="medium" red label="Войти" @onClick="login")
+          t-button(
+            red
+            size="medium"
+            label="Войти" 
+            @onClick="login")
        
 </template>
 
@@ -39,7 +58,7 @@ export default {
       authForm: {
         username: "",
         password: "",
-        role: "admin",
+        role: "user",
       },
       submitStatus: null,
     };
@@ -89,7 +108,7 @@ export default {
     margin-bottom: 20px;
   }
   .t-radio {
-    margin-bottom: 10px;
+    margin-bottom: 15px;
   }
   &__bottom {
     margin-top: 30px;

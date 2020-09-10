@@ -17,8 +17,7 @@ const actions = {
       apiCall({ url: AUTH_REQUEST_URL(), data: user, method: "POST" })
         .then((resp) => {
           localStorage.setItem("access-token", resp.token);
-
-          // Get user data
+          // Получаем данные пользователя
           dispatch("User/userRequest", user, { root: true });
           commit("authSuccess", resp);
           router.push("/");
@@ -37,9 +36,11 @@ const actions = {
       commit("User/authLogout", null, { root: true });
       localStorage.removeItem("access-token");
       // TODO: Удалить после связки с бекендом
+      // TODO: Сейчас пользователь хранится в localstorage
       localStorage.removeItem("profile");
+      // Сбрасываем права
       ability.update({});
-      //
+      //-
       router.push("/login");
       resolve();
     });

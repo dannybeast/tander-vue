@@ -12,14 +12,14 @@
       tbody
         tr
           td Продуктивная
-          td 60
-          td 144
-          td 1246
+          td {{cpuProd}}
+          td {{ramProd}}
+          td {{shdProd}}
         tr
           td Непродуктивная
-          td 16
-          td 32
-          td 214
+          td {{cpu}}
+          td {{ram}}
+          td {{shd}}
 </template>
 
 <script>
@@ -29,6 +29,14 @@ export default {
     return {
       title: "Общее кол-во требуемых ресурсов:",
     };
+  },
+  props: {
+    ram: Number,
+    ramProd: Number,
+    shd: Number,
+    shdProd: Number,
+    cpu: Number,
+    cpuProd: Number,
   },
 };
 </script>
