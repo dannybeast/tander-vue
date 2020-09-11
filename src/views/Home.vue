@@ -3,25 +3,18 @@
 
   +b.page
     .container
-
-      request-list(v-if="$can('read', 'requestInfrastructure')")
-
-      +e.content(v-if="$can('read', 'processInfrastructure')")
-        
+      request-list
 
 </template>
 
 <script>
 import { mapGetters } from "vuex";
-import requestList from "@/components/requestList";
+import RequestList from "@/components/RequestList";
 
 export default {
   name: "Home",
-  data() {
-    return {};
-  },
   components: {
-    requestList,
+    RequestList,
   },
 };
 </script>

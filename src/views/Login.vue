@@ -129,6 +129,9 @@ export default {
     font-size: 34px;
     font-weight: 300;
     margin-bottom: 30px;
+    @include sm-block() {
+      font-size: 24px;
+    }
   }
   &__content {
     width: 100%;

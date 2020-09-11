@@ -45,7 +45,7 @@ export default {
 .total-counts {
   max-width: 550px;
   &__title {
-    font-size: 28px;
+    font-size: 20px;
     font-weight: 300;
     margin-bottom: 15px;
   }

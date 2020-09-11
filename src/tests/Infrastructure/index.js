@@ -1,7 +1,14 @@
+const locale = "ru-RU";
 export const infrastructureMocks = {
   infrastructureCopy: { success: true },
   infrastructureUpdate: { success: true },
+  infrastructureApprove: { success: true },
   infrastructureRemove: { success: true },
+  infrastructureInfo: {
+    approveStatus: false,
+    approveDate: new Date(2020, 1),
+    updateDate: new Date(2020, 2),
+  },
   infrastructureList: [
     {
       id: "11599639112450",
@@ -22,7 +29,7 @@ export const infrastructureMocks = {
       blocksize: "",
       latency: "",
       backup: true,
-      backupClass: "",
+      backupClass: 1,
       backupFrequency: "",
       backupDepth: "",
       diskDistribution: "",
@@ -43,9 +50,9 @@ export const infrastructureMocks = {
       diskVolume: "250",
       diskVolumeFull: "",
       shdRequest: true,
-      iops: "",
-      blocksize: "",
-      latency: "",
+      iops: "5",
+      blocksize: "4",
+      latency: "4",
       backup: false,
       backupClass: "",
       backupFrequency: "",
@@ -68,9 +75,9 @@ export const infrastructureMocks = {
       diskVolume: "250",
       diskVolumeFull: "",
       shdRequest: true,
-      iops: "",
-      blocksize: "",
-      latency: "",
+      iops: "6",
+      blocksize: "5",
+      latency: "4",
       backup: false,
       backupClass: "",
       backupFrequency: "",
@@ -96,13 +103,20 @@ export function infrastructureMethods({
       resolve(mocks.infrastructureList);
       console.log(`response ${method} - ${url}: `, mocks.infrastructureList);
       break;
+
     // Infrastructure ADD
     case "infrastructure/add|POST":
+      mocks.infrastructureInfo.approveStatus = false;
+      mocks.infrastructureInfo.updateDate = new Date();
+      data.id = new Date().getTime();
       resolve(data);
       console.log(`response ${method} - ${url}: `, data);
       break;
+
     // Infrastructure COPY
     case `infrastructure/copy/${id}|POST`:
+      mocks.infrastructureInfo.approveStatus = false;
+      mocks.infrastructureInfo.updateDate = new Date();
       mocks.infrastructureList.forEach((obj) => {
         if (Object.values(obj)[0] === id) {
           let newObj = Object.assign({}, obj);
@@ -116,8 +130,11 @@ export function infrastructureMethods({
         }
       });
       break;
+
     // Infrastructure DELETE
     case `infrastructure/${id}|DELETE`:
+      mocks.infrastructureInfo.approveStatus = false;
+      mocks.infrastructureInfo.updateDate = new Date();
       mocks.infrastructureList.forEach((obj) => {
         if (Object.values(obj)[0] === id) {
           let index = mocks.infrastructureList.indexOf(obj);
@@ -131,6 +148,7 @@ export function infrastructureMethods({
       });
 
       break;
+
     // Infrastructure GET BY ID
     case `infrastructure/${id}|GET`:
       mocks.infrastructureList.forEach((obj) => {
@@ -140,8 +158,11 @@ export function infrastructureMethods({
         }
       });
       break;
+
     // Infrastructure UPDATE
     case `infrastructure/${id}|PUT`:
+      mocks.infrastructureInfo.approveStatus = false;
+      mocks.infrastructureInfo.updateDate = new Date();
       mocks.infrastructureList.forEach((obj) => {
         if (Object.values(obj)[0] === id) {
           for (var key in data) obj[key] = data[key];
@@ -152,6 +173,20 @@ export function infrastructureMethods({
           );
         }
       });
+      break;
+
+    // Infrastructure GET INFO
+    case `infrastructure/info|GET`:
+      resolve(mocks.infrastructureInfo);
+      console.log(`response ${method} - ${url}: `, mocks.infrastructureInfo);
+      break;
+
+    // Infrastructure APPROVE
+    case `infrastructure/approve|POST`:
+      mocks.infrastructureInfo.approveStatus = true;
+      mocks.infrastructureInfo.approveDate = new Date();
+      resolve(mocks.infrastructureApprove);
+      console.log(`response ${method} - ${url}: `, mocks.infrastructureApprove);
       break;
   }
 }

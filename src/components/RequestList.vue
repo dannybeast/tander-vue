@@ -8,7 +8,8 @@
         size="small"
         label="Добавить"
         icon="plus-circle-outline"
-        @onClick="openModalRequest()")
+        @onClick="openModalRequest()"
+        v-if="$can('read', 'requestInfrastructure')")
     
     .page__content
       t-loader(v-if="infrastructureStatus === 'loading'")
@@ -16,12 +17,13 @@
         //
         section
           t-table(
-            :tableHeadersList="tableHeadersList" 
-            :tableBodyList="tableBodyList"
+            :th="tableHeadersList" 
+            :body="tableBodyListFiltered"
+            :actions="tableActions"
             @copy="copy($event)"
+            @view="view($event)"
             @edit="edit($event)"
             @remove="remove($event)")
-        
         //
         section(v-if="tableBodyList.length")
           total-counts(
@@ -31,20 +33,58 @@
             :shdProd="sumProdShd"
             :cpu="sumCpu"
             :cpuProd="sumProdCpu")
+        //
+        section(v-if="tableBodyList.length")
+          t-button(
+            red
+            size="small"
+            :label="approveButtonText"
+            icon="check-circle-outline"
+            @onClick="approveRequest()"
+            :disabled="approveStatus"
+            v-if="$can('read', 'processInfrastructure')")
+        //
+        section(v-if="tableBodyList.length")
+          +b.status-bar
+            p Статус запроса: <strong>{{approveStatusText}} {{approveDate}}</strong>
+            p Дата обновления запроса: <strong>{{updateDate}}</strong>
 
-    // Modal добавление
-    modal(name="requestModal" :width="modalWidth" height="auto" )
+    // Окно добавления
+    modal(
+      name="requestModal" 
+      :width="modalWidth"
+      height="auto" 
+      :adaptive="true")
       request-form(@successRequest="closeModalRequest()")
     
-    // Modal редактирование
-    modal(name="editModal" :width="modalWidth" height="auto")
-      request-form(@successRequest="closeModalEdit()" edit="true" :editData="editData")
-      
+    // Окно редактирования
+    modal(
+      name="editModal" 
+      :width="modalWidth"
+      height="auto" 
+      :adaptive="true")
+      request-form(
+        @successRequest="closeModalEdit()" 
+        edit="true" 
+        :editData="currentInfrastructure")
+    
+    // Окно просмотра
+    modal(
+      name="viewModal" 
+      :width="modalWidth" 
+      height="auto" 
+      :adaptive="true")
+      t-list-view(
+        :title="currentInfrastructureFiltered.type"
+        :namesData="tableHeadersList" 
+        :viewData="currentInfrastructureFiltered")
+
 </template>
 
 <script>
 import { mapGetters } from "vuex";
-import requestForm from "@/components/forms/requestForm";
+import RequestForm from "@/components/forms/RequestForm";
+import TListView from "@/components/ui/TListView";
 import TButton from "@/components/ui/TButton";
 import TTable from "@/components/ui/TTable";
 import TLoader from "@/components/ui/TLoader";
@@ -56,8 +96,10 @@ export default {
   data() {
     return {
       title: title,
-      editData: "",
       modalWidth: 1150,
+      notApproveButtonText: "Утвердить запрос",
+      approveTextSuccess: "Утверждено",
+      notApproveTextStatus: "В обработке",
     };
   },
   metaInfo: {
@@ -65,13 +107,37 @@ export default {
   },
   created() {
     this.$store.dispatch("Infrastructure/getInfrastructure");
+    this.$store.dispatch("Infrastructure/getInfrastructureInfo");
   },
   computed: {
     ...mapGetters({
-      tableHeadersList: "Infrastructure/getKeys",
+      tableHeadersList: "Infrastructure/getNames",
       tableBodyList: "Infrastructure/getList",
+      tableBodyListFiltered: "Infrastructure/getListFiltered",
       infrastructureStatus: "Infrastructure/getStatus",
+      approveStatus: "Infrastructure/getApproveStatus",
+      approveDate: "Infrastructure/getApprovedDate",
+      updateDate: "Infrastructure/getUpdateDate",
+      currentInfrastructure: "Infrastructure/getCurrent",
+      currentInfrastructureFiltered: "Infrastructure/getCurrentFiltered",
     }),
+    approveStatusText() {
+      return this.approveStatus
+        ? this.approveTextSuccess
+        : this.notApproveTextStatus;
+    },
+    approveButtonText() {
+      return this.approveStatus
+        ? this.approveTextSuccess
+        : this.notApproveButtonText;
+    },
+    tableActions() {
+      if (this.$can("read", "requestInfrastructure")) {
+        return ["copy", "edit", "remove"];
+      } else if (this.$can("read", "processInfrastructure")) {
+        return ["view"];
+      }
+    },
     // Общее кол-во RAM
     sumRam() {
       return this.reduceSum(this.tableBodyList, "ram");
@@ -107,6 +173,16 @@ export default {
     closeModalEdit() {
       this.$modal.hide("editModal");
     },
+    // Утверждение
+    approveRequest() {
+      this.$store.dispatch("Infrastructure/approveInfrastructure").then(() => {
+        this.$notify({
+          group: "foo",
+          type: "success",
+          title: "Успешно утверждено",
+        });
+      });
+    },
     // Подсчет непродуктивной суммы из массива
     reduceSum(arr, value) {
       const values = arr.map((obj) =>
@@ -138,8 +214,14 @@ export default {
       this.$store
         .dispatch("Infrastructure/getInfrastructureById", id)
         .then((resp) => {
-          this.editData = resp;
           this.$modal.show("editModal");
+        });
+    },
+    view(id) {
+      this.$store
+        .dispatch("Infrastructure/getInfrastructureById", id)
+        .then((resp) => {
+          this.$modal.show("viewModal");
         });
     },
     remove(id) {
@@ -155,11 +237,33 @@ export default {
     },
   },
   components: {
-    requestForm,
+    RequestForm,
     TTable,
     TLoader,
     TButton,
     TotalCounts,
+    TListView,
   },
 };
 </script>
+<style lang="scss">
+.status-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 15px;
+  font-size: 13px;
+  @include sm-block() {
+    flex-wrap: wrap;
+    strong {
+      display: block;
+    }
+    & > * {
+      margin-bottom: 15px;
+      &:last-child {
+        margin-bottom: 0;
+      }
+    }
+  }
+}
+</style>

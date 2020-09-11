@@ -71,11 +71,19 @@ body,
     display: flex;
     align-items: center;
     justify-content: space-between;
+    @include sm-block() {
+      flex-wrap: wrap;
+      justify-content: center;
+    }
   }
   &__title {
     text-align: center;
     font-size: 28px;
     font-weight: 300;
+    @include sm-block() {
+      width: 100%;
+      margin-bottom: 30px;
+    }
   }
   &__content {
     section {

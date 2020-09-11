@@ -175,7 +175,7 @@ import TSelect from "@/components/ui/TSelect";
 import TCheckbox from "@/components/ui/TCheckbox";
 
 export default {
-  name: "requestForm",
+  name: "RequestForm",
   created() {
     if (this.edit) {
       this.requestForm = Object.assign({}, this.editData);
@@ -188,7 +188,7 @@ export default {
   data() {
     return {
       requestForm: {
-        id: new Date().getTime(),
+        id: "",
         type: "",
         name: "",
         environment: "",
@@ -268,8 +268,7 @@ export default {
         }
       }
     },
-    // Устанавливаем значение частоты резерв. копирования
-    // (в зависимости от выбора класса)
+    // Устанавливаем значение частоты резерв. копирования (в зависимости от выбора класса)
     setBackupFrequency() {
       this.backupClassOptions.forEach((obj) => {
         if (+obj.value === +this.requestForm.backupClass) {
@@ -277,8 +276,7 @@ export default {
         }
       });
     },
-    // Устанавливаем распределение дискового пространства на серверах БД
-    // (в зависимости от роли)
+    // Устанавливаем распределение дискового пространства на серверах БД (в зависимости от роли)
     setDiskDistribution() {
       this.roleOptions.forEach((obj) => {
         if (+obj.value === +this.requestForm.role) {

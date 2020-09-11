@@ -18,7 +18,7 @@ export default {
   name: "TheHeader",
   data() {
     return {
-      slogan: "Автоматизация оценки и запроса инфраструктуры (ЦИ)",
+      slogan: "Запрос и оценка инфраструктуры",
       logoUrl: "/images/logo.svg",
     };
   },
@@ -57,7 +57,7 @@ export default {
     font-size: 14px;
     line-height: $mainLineHeight;
     font-weight: 400;
-    max-width: 250px;
+    max-width: 220px;
     margin-right: auto;
   }
 }

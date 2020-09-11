@@ -7,8 +7,8 @@
       xmlns:xlink="http://www.w3.org/1999/xlink"
       x="0px"
       y="0px"
-      width="40px"
-      height="40px"
+      :width="size"
+      :height="size"
       viewBox="0 0 40 40"
       enable-background="new 0 0 40 40"
       xml:space="preserve"
@@ -35,6 +35,17 @@
     </svg>
   </div>
 </template>
+
+<script>
+export default {
+  name: "TLoader",
+  data() {
+    return {
+      size: 50,
+    };
+  },
+};
+</script>
 
 <style lang="scss" scoped>
 .t-loader {

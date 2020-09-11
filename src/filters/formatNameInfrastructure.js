@@ -6,6 +6,7 @@ let environmentArr = store.state.Infrastructure.environmentOptions;
 let roleArr = store.state.Infrastructure.roleOptions;
 let osArr = store.state.Infrastructure.osOptions;
 let backupClassArr = store.state.Infrastructure.backupClassOptions;
+
 function filtered(arr, value) {
   let result = "";
   arr.forEach((obj) => {
@@ -17,6 +18,11 @@ function filtered(arr, value) {
 }
 
 Vue.filter("formatNameInfrastructure", function(value, key) {
+  if (typeof value === "boolean" && !!value) {
+    value = "Да";
+  } else if (typeof value === "boolean" && !value) {
+    value = "Нет";
+  }
   switch (key) {
     case "type":
       return filtered(typeArr, value);

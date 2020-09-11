@@ -1,5 +1,5 @@
 import apiCall from "@/tests/mocksApi";
-
+import Vue from "vue";
 import {
   GET_INFRASTUCTURE_URL,
   GET_BY_ID_INFRASTUCTURE_URL,
@@ -7,6 +7,8 @@ import {
   ADD_INFRASTUCTURE_URL,
   COPY_INFRASTUCTURE_URL,
   REMOVE_INFRASTUCTURE_URL,
+  APPROVE_INFRASTUCTURE_URL,
+  GET_INFO_INFRASTUCTURE_URL,
 } from "@/api/endPoints";
 
 const state = {
@@ -72,10 +74,11 @@ const state = {
   infrastructureList: [],
   currentInfrastructure: "",
   status: "",
+  info: "",
 };
 
 const actions = {
-  getInfrastructure: ({ commit, dispatch }) => {
+  getInfrastructure: ({ commit }) => {
     return new Promise((resolve, reject) => {
       commit("getInfrastructure");
 
@@ -90,7 +93,7 @@ const actions = {
         });
     });
   },
-  getInfrastructureById: ({ commit, dispatch }, id) => {
+  getInfrastructureById: ({ commit }, id) => {
     return new Promise((resolve, reject) => {
       apiCall({
         url: GET_BY_ID_INFRASTUCTURE_URL(id),
@@ -172,7 +175,36 @@ const actions = {
         });
     });
   },
+  getInfrastructureInfo: ({ commit, dispatch }, id) => {
+    return new Promise((resolve, reject) => {
+      apiCall({ url: GET_INFO_INFRASTUCTURE_URL(id), id, method: "GET" })
+        .then((resp) => {
+          commit("getInfrastructureInfoSuccess", resp);
+          resolve(resp);
+        })
+        .catch((err) => {
+          commit("infrastructureError", err);
+          reject(err);
+        });
+    });
+  },
+  approveInfrastructure: ({ commit, dispatch }, id) => {
+    return new Promise((resolve, reject) => {
+      apiCall({ url: APPROVE_INFRASTUCTURE_URL(id), id, method: "POST" })
+        .then(() => {
+          dispatch("getInfrastructureInfo").then(() => {
+            commit("approveInfrastructureSuccess");
+            resolve();
+          });
+        })
+        .catch((err) => {
+          commit("infrastructureError", err);
+          reject(err);
+        });
+    });
+  },
 };
+
 const mutations = {
   getInfrastructure: (state) => {
     state.status = "loading";
@@ -198,15 +230,52 @@ const mutations = {
     state.status = "success";
     state.infrastructureList.push(resp);
   },
+  approveInfrastructureSuccess: (state) => {
+    state.status = "success";
+  },
+  getInfrastructureInfoSuccess: (state, resp) => {
+    state.status = "success";
+    state.info = resp;
+  },
   infrastructureError: (state) => {
     state.status = "error";
   },
 };
+
 const getters = {
-  getKeys: (state) => state.infrastructureNames,
-  getList: (state) => state.infrastructureList,
+  getNames: (state) => state.infrastructureNames,
   getStatus: (state) => state.status,
+  getApproveStatus: (state) => state.info.approveStatus,
+  getApprovedDate: (state) => Vue.filter("formatDate")(state.info.approveDate),
+  getUpdateDate: (state) => Vue.filter("formatDate")(state.info.updateDate),
+  getList: (state) => state.infrastructureList,
+  getListFiltered: (state) => {
+    return state.infrastructureList.map((obj) => {
+      let newObject = Object.assign({}, obj);
+      let keys = Object.keys(newObject);
+      Object.values(newObject).forEach((value, index) => {
+        newObject[keys[index]] = Vue.filter("formatNameInfrastructure")(
+          value,
+          keys[index]
+        );
+      });
+      return newObject;
+    });
+  },
+  getCurrent: (state) => state.currentInfrastructure,
+  getCurrentFiltered: (state) => {
+    let newObject = Object.assign({}, state.currentInfrastructure);
+    let keys = Object.keys(newObject);
+    Object.values(newObject).forEach((value, index) => {
+      newObject[keys[index]] = Vue.filter("formatNameInfrastructure")(
+        value,
+        keys[index]
+      );
+    });
+    return newObject;
+  },
 };
+
 export default {
   namespaced: true,
   state,
