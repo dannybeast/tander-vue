@@ -45,3 +45,31 @@ debug2: bits set: 1054/2048
 debug3: send packet: type 30
 debug1: expecting SSH2_MSG_KEXDH_REPLY
 то необходимо писать на ДЗИ, чтобы пофиксили на балабите (например на Доценко Станислав Евгеньевич docenko_se@magnit.ru), и приложить к письму логи вывода ssh-клиента и ssh-сервера.
+
+
+
+
+
+
+
+
+
+if config:
+flags=4163<UP,BROADCAST,RUNNING,MULTICAST>  mtu 1500
+        inet 10.108.9.51  netmask 255.255.252.0  broadcast 10.108.11.255
+        inet6 fe80::18d:53ff:1ac0:80e2  prefixlen 64  scopeid 0x20<link>
+        ether b4:2e:99:8e:33:75  txqueuelen 1000  (Ethernet)
+        RX packets 6751088  bytes 1949699930 (1.9 GB)
+        RX errors 0  dropped 0  overruns 0  frame 0
+        TX packets 1481314  bytes 238150450 (238.1 MB)
+        TX errors 0  dropped 0 overruns 0  carrier 0  collisions 0
+
+lo: flags=73<UP,LOOPBACK,RUNNING>  mtu 65536
+        inet 127.0.0.1  netmask 255.0.0.0
+        inet6 ::1  prefixlen 128  scopeid 0x10<host>
+        loop  txqueuelen 1000  (Локальная петля (Loopback))
+        RX packets 2136706  bytes 2940749224 (2.9 GB)
+        RX errors 0  dropped 0  overruns 0  frame 0
+        TX packets 2136706  bytes 2940749224 (2.9 GB)
+        TX errors 0  dropped 0 overruns 0  carrier 0  collisions 0
+
