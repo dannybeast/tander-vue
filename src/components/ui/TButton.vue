@@ -10,29 +10,26 @@ export default {
   props: {
     label: {
       type: String,
-      required: true,
+      required: true
     },
     icon: String,
     red: {
       type: Boolean,
-      default: false,
+      default: false
     },
     size: {
       type: String,
       default: "medium",
       validator: function(value) {
         return ["small", "medium", "large"].indexOf(value) !== -1;
-      },
-    },
-    backgroundColor: {
-      type: String,
-    },
+      }
+    }
   },
 
   computed: {
     iconName() {
       return {
-        [`mdi-${this.icon}`]: this.icon,
+        [`mdi-${this.icon}`]: this.icon
       };
     },
     classes() {
@@ -40,22 +37,24 @@ export default {
         "t-button": true,
         "t-button--red": this.red,
         "t-button--secondary": !this.red,
-        [`t-button--${this.size}`]: true,
+        [`t-button--${this.size}`]: true
       };
-    },
+    }
   },
 
   methods: {
     onClick() {
       this.$emit("onClick");
-    },
-  },
+    }
+  }
 };
 </script>
 
 <style lang="scss">
 $button-border-radius: 12px;
-$button-icon-spacing: 8px;
+$button-spacing: 8px;
+$button-font-size: $mainFontSize;
+
 .t-button {
   font-weight: 700;
   border: 0;
@@ -65,45 +64,58 @@ $button-icon-spacing: 8px;
   align-items: center;
   vertical-align: top;
   line-height: 1;
-  font-size: 16px;
-  padding: 0 16px;
+  font-size: $button-font-size;
+  padding: 0 $button-spacing * 2;
   font-weight: 600;
   border-radius: $button-border-radius;
+  transition: all $animSpeed $anim;
+  // icon font
   i {
     font-size: 24px;
     &:first-child {
-      margin-right: $button-icon-spacing;
+      margin-right: $button-spacing;
     }
     &:last-child {
-      margin-left: $button-icon-spacing;
+      margin-left: $button-spacing;
     }
   }
+  // colors
   &--red {
-    color: #fff;
-    background-color: $red;
+    color: $color-white;
+    background-color: $color-brand-red;
     &:hover {
-      background-color: $red-hover;
+      background-color: $color-brand-red_hover;
     }
   }
   &--secondary {
-    color: $black;
-    background-color: $fog;
+    color: $color-black;
+    background-color: $color-fog;
     &:hover {
-      background-color: $fog-hover;
+      background-color: $color-for_hover;
     }
   }
+  // sizes
   &--small {
-    font-size: 14px;
+    font-size: $button-font-size * 0.8;
     height: 45px;
   }
   &--medium {
-    font-size: 16px;
-    height: 55px;
+    font-size: $button-font-size;
+    height: 50px;
+  }
+  &--large {
+    font-size: $button-font-size * 1.2;
+    padding: 0 $button-spacing * 3;
+    height: 60px;
+  }
+  // states
+  &:not([disabled]):active {
+    transform: scale(0.95);
   }
   &[disabled] {
-    background: $gray;
+    background: $color-gray;
     cursor: not-allowed;
-    color: #fff;
+    color: $color-white;
   }
 }
 </style>

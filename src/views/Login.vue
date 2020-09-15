@@ -50,17 +50,17 @@ export default {
   name: "Login",
 
   metaInfo: {
-    title: title,
+    title: title
   },
   data() {
     return {
       title: title,
       authForm: {
-        username: "",
-        password: "",
-        role: "user",
+        username: "44444444",
+        password: "444444444",
+        role: "user"
       },
-      submitStatus: null,
+      submitStatus: null
     };
   },
   methods: {
@@ -71,7 +71,7 @@ export default {
         this.$notify({
           group: "foo",
           type: "error",
-          title: "Заполните форму корректно",
+          title: "Заполните форму корректно"
         });
       } else {
         this.submitStatus = "PENDING";
@@ -79,21 +79,21 @@ export default {
           this.submitStatus = "OK";
         });
       }
-    },
+    }
   },
   validations: {
     authForm: {
       username: {
         required,
-        minLength: minLength(4),
+        minLength: minLength(4)
       },
       password: {
         required,
-        minLength: minLength(6),
-      },
-    },
+        minLength: minLength(6)
+      }
+    }
   },
-  components: { TButton, TField, TRadio },
+  components: { TButton, TField, TRadio }
 };
 </script>
 
@@ -101,7 +101,7 @@ export default {
 .auth-form {
   padding: 30px;
   background: #fff;
-  border: solid 1px $gray-light;
+  border: solid 1px $color-gray-light;
   margin: 0 auto;
   max-width: 500px;
   .t-field {
@@ -124,7 +124,7 @@ export default {
   align-items: center;
   justify-content: center;
   padding: 30px $offset_one_side;
-  background: $fog;
+  background: $color-fog;
   &__title {
     font-size: 34px;
     font-weight: 300;

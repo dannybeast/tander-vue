@@ -9,7 +9,7 @@
         label="Добавить"
         icon="plus-circle-outline"
         @onClick="openModalRequest()"
-        v-if="$can('read', 'requestInfrastructure')")
+        v-if="$can('manage', 'requestInfrastructure')")
     
     .page__content
       t-loader(v-if="infrastructureStatus === 'loading'")
@@ -42,7 +42,7 @@
             icon="check-circle-outline"
             @onClick="approveRequest()"
             :disabled="approveStatus"
-            v-if="$can('read', 'processInfrastructure')")
+            v-if="$can('manage', 'processInfrastructure')")
         //
         section(v-if="tableBodyList.length")
           +b.status-bar
@@ -67,7 +67,7 @@
         @successRequest="closeModalEdit()" 
         edit="true" 
         :editData="currentInfrastructure")
-    
+  
     // Окно просмотра
     modal(
       name="viewModal" 
@@ -99,11 +99,11 @@ export default {
       modalWidth: 1150,
       notApproveButtonText: "Утвердить запрос",
       approveTextSuccess: "Утверждено",
-      notApproveTextStatus: "В обработке",
+      notApproveTextStatus: "В обработке"
     };
   },
   metaInfo: {
-    title: title,
+    title: title
   },
   created() {
     this.$store.dispatch("Infrastructure/getInfrastructure");
@@ -119,7 +119,7 @@ export default {
       approveDate: "Infrastructure/getApprovedDate",
       updateDate: "Infrastructure/getUpdateDate",
       currentInfrastructure: "Infrastructure/getCurrent",
-      currentInfrastructureFiltered: "Infrastructure/getCurrentFiltered",
+      currentInfrastructureFiltered: "Infrastructure/getCurrentFiltered"
     }),
     approveStatusText() {
       return this.approveStatus
@@ -132,9 +132,9 @@ export default {
         : this.notApproveButtonText;
     },
     tableActions() {
-      if (this.$can("read", "requestInfrastructure")) {
+      if (this.$can("manage", "requestInfrastructure")) {
         return ["copy", "edit", "remove"];
-      } else if (this.$can("read", "processInfrastructure")) {
+      } else if (this.$can("manage", "processInfrastructure")) {
         return ["view"];
       }
     },
@@ -161,7 +161,7 @@ export default {
     // Общее кол-во SHD - Продуктивная
     sumProdShd() {
       return this.reduceSumProd(this.tableBodyList, "shdVolume");
-    },
+    }
   },
   methods: {
     openModalRequest() {
@@ -173,19 +173,19 @@ export default {
     closeModalEdit() {
       this.$modal.hide("editModal");
     },
-    // Утверждение
+    // Утверждение запроса
     approveRequest() {
       this.$store.dispatch("Infrastructure/approveInfrastructure").then(() => {
         this.$notify({
           group: "foo",
           type: "success",
-          title: "Успешно утверждено",
+          title: "Успешно утверждено"
         });
       });
     },
     // Подсчет непродуктивной суммы из массива
     reduceSum(arr, value) {
-      const values = arr.map((obj) =>
+      const values = arr.map(obj =>
         +obj["environment"] != 1 ? parseInt(obj[value]) : 0
       );
       return values.reduce(
@@ -194,7 +194,7 @@ export default {
     },
     // Подсчет продуктивной суммы из массива
     reduceSumProd(arr, value) {
-      const values = arr.map((obj) =>
+      const values = arr.map(obj =>
         +obj["environment"] === 1 ? parseInt(obj[value]) : 0
       );
       return values.reduce(
@@ -206,21 +206,21 @@ export default {
         this.$notify({
           group: "foo",
           type: "success",
-          title: "Успешно скопировано",
+          title: "Успешно скопировано"
         });
       });
     },
     edit(id) {
       this.$store
         .dispatch("Infrastructure/getInfrastructureById", id)
-        .then((resp) => {
+        .then(resp => {
           this.$modal.show("editModal");
         });
     },
     view(id) {
       this.$store
         .dispatch("Infrastructure/getInfrastructureById", id)
-        .then((resp) => {
+        .then(resp => {
           this.$modal.show("viewModal");
         });
     },
@@ -231,10 +231,10 @@ export default {
           this.$notify({
             group: "foo",
             type: "success",
-            title: "Успешно удалено",
+            title: "Успешно удалено"
           });
         });
-    },
+    }
   },
   components: {
     RequestForm,
@@ -242,8 +242,8 @@ export default {
     TLoader,
     TButton,
     TotalCounts,
-    TListView,
-  },
+    TListView
+  }
 };
 </script>
 <style lang="scss">

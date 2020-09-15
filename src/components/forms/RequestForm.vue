@@ -165,7 +165,7 @@ import {
   required,
   minLength,
   between,
-  requiredIf,
+  requiredIf
 } from "vuelidate/lib/validators";
 import { mapState } from "vuex";
 import TField from "@/components/ui/TField";
@@ -210,26 +210,26 @@ export default {
         backupFrequency: "",
         backupDepth: "",
         diskDistribution: "",
-        note: "",
+        note: ""
       },
       submitStatus: null,
       textButtonEdit: "Сохранить",
       textButtonAdd: "Добавить",
       titleEdit: "Редактировать инфраструктуру:",
-      titleAdd: "Добавить инфраструктуру:",
+      titleAdd: "Добавить инфраструктуру:"
     };
   },
   props: {
     edit: false,
-    editData: "",
+    editData: ""
   },
   computed: {
     ...mapState({
-      typeOptions: (state) => state.Infrastructure.typeOptions,
-      environmentOptions: (state) => state.Infrastructure.environmentOptions,
-      roleOptions: (state) => state.Infrastructure.roleOptions,
-      osOptions: (state) => state.Infrastructure.osOptions,
-      backupClassOptions: (state) => state.Infrastructure.backupClassOptions,
+      typeOptions: state => state.Infrastructure.typeOptions,
+      environmentOptions: state => state.Infrastructure.environmentOptions,
+      roleOptions: state => state.Infrastructure.roleOptions,
+      osOptions: state => state.Infrastructure.osOptions,
+      backupClassOptions: state => state.Infrastructure.backupClassOptions
     }),
     selectedBackup() {
       return this.requestForm.backup;
@@ -242,7 +242,7 @@ export default {
     },
     title() {
       return this.edit ? this.titleEdit : this.titleAdd;
-    },
+    }
   },
   methods: {
     sendRequest() {
@@ -270,7 +270,7 @@ export default {
     },
     // Устанавливаем значение частоты резерв. копирования (в зависимости от выбора класса)
     setBackupFrequency() {
-      this.backupClassOptions.forEach((obj) => {
+      this.backupClassOptions.forEach(obj => {
         if (+obj.value === +this.requestForm.backupClass) {
           this.requestForm.backupFrequency = obj.backupFrequency;
         }
@@ -278,7 +278,7 @@ export default {
     },
     // Устанавливаем распределение дискового пространства на серверах БД (в зависимости от роли)
     setDiskDistribution() {
-      this.roleOptions.forEach((obj) => {
+      this.roleOptions.forEach(obj => {
         if (+obj.value === +this.requestForm.role) {
           this.requestForm.diskDistribution = obj.diskDistribution;
         }
@@ -286,7 +286,7 @@ export default {
     },
     // Устанавливаем размер SHD (в зависимости от OS)
     setShd() {
-      this.osOptions.forEach((obj) => {
+      this.osOptions.forEach(obj => {
         if (+obj.value === +this.requestForm.os) {
           this.requestForm.shdVolume = obj.shdVolume;
         }
@@ -302,12 +302,12 @@ export default {
     changeOs() {
       this.setShd();
       this.setDiskVolumeFull();
-    },
+    }
   },
   validations: {
     requestForm: {
       type: {
-        required,
+        required
       },
       name: { required, minLength: minLength(4) },
       environment: { required },
@@ -328,15 +328,15 @@ export default {
       backupClass: {
         required: requiredIf(function() {
           return this.requestForm.backup;
-        }),
+        })
       },
       backupFrequency: {},
       backupDepth: {},
       diskDistribution: {},
-      note: {},
-    },
+      note: {}
+    }
   },
-  components: { TButton, TField, TTextarea, TSelect, TCheckbox },
+  components: { TButton, TField, TTextarea, TSelect, TCheckbox }
 };
 </script>
 
@@ -350,9 +350,9 @@ export default {
   &__section {
     padding: 40px 40px;
     &--gray-light {
-      background: $fog;
-      border-top: 1px solid $gray-light;
-      border-bottom: 1px solid $gray-light;
+      background: $color-fog;
+      border-top: 1px solid $color-gray-light;
+      border-bottom: 1px solid $color-gray-light;
     }
   }
   &__section-title {

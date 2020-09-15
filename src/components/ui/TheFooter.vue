@@ -10,21 +10,21 @@ export default {
   name: "TheFooter",
   data() {
     return {
-      year: new Date().getFullYear(),
+      year: new Date().getFullYear()
     };
-  },
+  }
 };
 </script>
 
 <style lang="scss">
 .footer {
-  background: #fff;
-  border-top: 1px solid $gray-light;
+  background: $color-white;
+  border-top: 1px solid $color-gray-light;
   padding-top: 30px;
   padding-bottom: 30px;
   &__copyright {
     text-align: center;
-    font-size: 13px;
+    font-size: $mainFontSize * 0.8;
   }
 }
 </style>

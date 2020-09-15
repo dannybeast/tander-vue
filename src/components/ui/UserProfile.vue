@@ -13,15 +13,15 @@ export default {
   name: "UserProfile",
   computed: {
     ...mapState({
-      username: (state) => state.User.profile.username,
-      role: (state) => state.User.profile.role,
-    }),
+      username: state => state.User.profile.username,
+      role: state => state.User.profile.role
+    })
   },
   methods: {
     logout: function() {
       this.$store.dispatch("Auth/authLogout");
-    },
-  },
+    }
+  }
 };
 </script>
 
@@ -40,10 +40,11 @@ export default {
     cursor: pointer;
     i {
       font-size: 24px;
+      color: $color-brand-red;
     }
     &:hover {
       i {
-        color: $red;
+        color: $color-black;
       }
     }
   }

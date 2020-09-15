@@ -41,9 +41,9 @@ export default {
   name: "TLoader",
   data() {
     return {
-      size: 50,
+      size: 50
     };
-  },
+  }
 };
 </script>
 
@@ -55,7 +55,7 @@ export default {
   justify-content: center;
   svg path,
   svg rect {
-    fill: $red;
+    fill: $color-brand-red;
   }
 }
 </style>

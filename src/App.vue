@@ -10,20 +10,20 @@
 </template>
 
 <script>
-import { mapGetters, mapActions } from "vuex";
+import { mapGetters } from "vuex";
 import MainLayout from "@/components/layout/MainLayout";
 import TLoader from "@/components/ui/TLoader";
 
 export default {
   components: {
     MainLayout,
-    TLoader,
+    TLoader
   },
   computed: {
     ...mapGetters({
       isAuth: "Auth/isAuthenticated",
-      authStatus: "Auth/authStatus",
-    }),
+      authStatus: "Auth/authStatus"
+    })
   },
   created: function() {
     if (this.isAuth) {
@@ -33,7 +33,7 @@ export default {
         JSON.parse(localStorage.getItem("profile"))
       );
     }
-  },
+  }
 };
 </script>
 <style lang="scss">
@@ -41,24 +41,26 @@ export default {
 // Info icons: https://materialdesignicons.com/
 @import url("https://cdn.jsdelivr.net/npm/@mdi/font@5.x/css/materialdesignicons.min.css");
 @import "@/assets/scss/reset";
-@import "@/assets/scss/tables";
-@import "@/assets/scss/fields";
-@import "@/assets/scss/checkboxAndRadio";
+@import "@/assets/scss/typography/main";
+@import "@/assets/scss/forms/main";
 @import "@/assets/scss/modals";
+
 html,
 body,
 #app {
   min-height: 100vh;
-  background: $fog;
+  background: $color-fog;
 }
 
 #app {
   font-family: $mainFont;
 }
 .container {
+  width: 100%;
   @include wrapper();
 }
 .container-fluid {
+  width: 100%;
   @include wrapper-full();
 }
 .page {
@@ -86,6 +88,7 @@ body,
     }
   }
   &__content {
+    padding-bottom: 60px;
     section {
       margin-bottom: 40px;
       &:last-child {
@@ -93,14 +96,5 @@ body,
       }
     }
   }
-}
-
-.fade-enter-active,
-.fade-leave-active {
-  transition: opacity 0.2s cubic-bezier(1, 0.5, 0.8, 1);
-}
-.fade-enter,
-.fade-leave-to {
-  opacity: 0;
 }
 </style>

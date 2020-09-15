@@ -17,12 +17,12 @@ export default {
     return {
       title: title,
       description: "Такой страницы не существует",
-      imageUrl: "/images/404.png",
+      imageUrl: "/images/404.png"
     };
   },
   metaInfo: {
-    title: title,
-  },
+    title: title
+  }
 };
 </script>
 
@@ -39,7 +39,7 @@ export default {
   }
   &__marker {
     margin-bottom: 30px;
-    background: $black;
+    background: $color-black;
     color: #fff;
     padding: 5px 10px;
     font-weight: 600;

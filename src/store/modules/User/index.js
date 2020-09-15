@@ -1,8 +1,6 @@
 import apiCall from "@/tests/mocksApi";
 import Vue from "vue";
 import { USER_REQUEST_URL } from "@/api/endPoints";
-import { ability, defineAbilityFor } from "@/services/userAbilities";
-
 const state = { status: "", profile: {} };
 
 const mutations = {
@@ -23,23 +21,23 @@ const mutations = {
 
 const actions = {
   userRequest: ({ commit, dispatch }, user) => {
-    commit("userRequest");
+    return new Promise((resolve, reject) => {
+      commit("userRequest");
 
-    apiCall({ url: USER_REQUEST_URL(), data: user, method: "GET" })
-      .then((resp) => {
-        // TODO: Удалить после связки с бекендом
-        // TODO: Сейчас пользователь хранится в localstorage
-        localStorage.setItem("profile", JSON.stringify(resp));
-        // Устанавливаем права
-        const role = defineAbilityFor(resp);
-        ability.update(role);
-        //-
-        commit("userSuccess", resp);
-      })
-      .catch(() => {
-        commit("userError");
-        dispatch("Auth/authLogout", null, { root: true });
-      });
+      apiCall({ url: USER_REQUEST_URL(), data: user, method: "GET" })
+        .then((resp) => {
+          // TODO: Удалить после связки с бекендом
+          // TODO: Сейчас пользователь хранится в localstorage
+          localStorage.setItem("profile", JSON.stringify(resp));
+          commit("userSuccess", resp);
+          resolve(resp);
+        })
+        .catch((err) => {
+          commit("userError");
+          dispatch("Auth/authLogout", null, { root: true });
+          reject(err);
+        });
+    });
   },
 };
 

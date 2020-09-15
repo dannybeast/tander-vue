@@ -2,19 +2,22 @@ import { AbilityBuilder, Ability } from "@casl/ability";
 
 export const ability = new Ability();
 
-export function defineAbilityFor(user) {
+export function defineAbilityFor(profile) {
   const { can, cannot, rules } = new AbilityBuilder();
-
-  switch (user.role) {
-    case "user":
-      can("read", "requestInfrastructure");
-      break;
-    case "manager":
-      can("read", "processInfrastructure");
-      break;
+  if (profile) {
+    switch (profile.role) {
+      case "user":
+        can("manage", "requestInfrastructure");
+        can("read", "404");
+        break;
+      case "manager":
+        can("manage", "processInfrastructure");
+        can("read", "Secret");
+        can("read", "404");
+        break;
+    }
+    can("read", "Home");
+    can("read", "Login");
   }
-
-  cannot("delete", "Post", { published: true });
-
   return rules;
 }

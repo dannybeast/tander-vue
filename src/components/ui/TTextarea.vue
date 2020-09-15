@@ -1,10 +1,11 @@
 <template lang="pug">
   include ../../utils/bem/index.pug
-  +b.t-field(:class="{ 't-field--error': error }")
+  +b.t-field(:class="classes")
     label(v-if="label") {{label}}
     textarea.t-field__textarea(
       @input="handleInput($event.target.value)" 
-      :type="type" ) 
+      :type="type"
+      :disabled="disabled")
     slot
 </template>
 
@@ -14,17 +15,26 @@ export default {
   props: {
     label: String,
     value: String,
+    disabled: Boolean,
     type: {
       type: String,
-      default: "text",
+      default: "text"
     },
-    error: Boolean,
+    error: Boolean
+  },
+  computed: {
+    classes() {
+      return {
+        "t-field--error": this.error,
+        "t-field--disabled": this.disabled
+      };
+    }
   },
   methods: {
     handleInput(value) {
       this.$emit("input", value);
-    },
-  },
+    }
+  }
 };
 </script>
 

@@ -6,7 +6,7 @@
         +e.ROUTER-LINK(to="/" class="logo")
           img(:src="logoUrl", :alt="slogan")
           +e.H1.slogan {{slogan}}
-
+        router-link(to="/secret") Secret
         user-profile(v-if="isAuth")
 
 </template>
@@ -19,15 +19,15 @@ export default {
   data() {
     return {
       slogan: "Запрос и оценка инфраструктуры",
-      logoUrl: "/images/logo.svg",
+      logoUrl: "/images/logo.svg"
     };
   },
   computed: {
-    ...mapGetters({ isAuth: "Auth/isAuthenticated" }),
+    ...mapGetters({ isAuth: "Auth/isAuthenticated" })
   },
   components: {
-    UserProfile,
-  },
+    UserProfile
+  }
 };
 </script>
 
@@ -47,7 +47,7 @@ export default {
   &__logo {
     display: flex;
     align-items: center;
-    color: $black;
+    text-decoration: none;
     img {
       width: 40px;
       margin-right: 25px;
@@ -57,6 +57,7 @@ export default {
     font-size: 14px;
     line-height: $mainLineHeight;
     font-weight: 400;
+    color: $mainFontColor;
     max-width: 220px;
     margin-right: auto;
   }

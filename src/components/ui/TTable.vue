@@ -1,12 +1,12 @@
 <template lang="pug">
   include ../../utils/bem/index.pug
   +b.table-component
-    table(v-if="body.length")
+    table(v-if="body.length && actions != undefined")
       thead
         tr
           th(
             v-for="(th, thIndex) in th" 
-            :key="thIndex" ) {{th}}
+            :key="thIndex") {{th}}
           th(:colspan='actions.length').td-button
       tbody
         tr(
@@ -39,6 +39,7 @@
               i.mdi.mdi-delete
 
     p(v-else) {{emptyText}}
+
 </template>
 
 <script>
@@ -48,13 +49,13 @@ export default {
   name: "TTable",
   data() {
     return {
-      emptyText: "Пусто...",
+      emptyText: "Пусто..."
     };
   },
   props: {
     th: Array,
     body: Array,
-    actions: Array,
+    actions: Array
   },
   computed: {
     canCopy() {
@@ -68,7 +69,7 @@ export default {
     },
     canRemove() {
       return this.actions.indexOf("remove") != -1;
-    },
+    }
   },
   methods: {
     copy(id) {
@@ -82,8 +83,8 @@ export default {
     },
     remove(id) {
       this.$emit("remove", id);
-    },
-  },
+    }
+  }
 };
 </script>
 
@@ -121,7 +122,7 @@ export default {
   }
   th {
     font-weight: 500;
-    color: $black-light;
+    color: $color-black-50;
     font-size: 12px;
     line-height: 1.15;
     padding-top: 0;
@@ -146,11 +147,11 @@ export default {
       background: transparent;
       i {
         font-size: 24px;
-        color: $black;
+        color: $color-black;
       }
       &:hover {
         i {
-          color: $red;
+          color: $color-brand-red;
         }
       }
     }

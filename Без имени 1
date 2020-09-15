@@ -1,0 +1,47 @@
+ sudo ps axu | grep sshd
+root      373077  0.0  0.0  12168  6784 ?        Ss   13:04   0:00 sshd: /usr/sbin/sshd -D [listener] 0 of 10-100 startups
+barsuko+  374102  0.0  0.0  17556   672 pts/1    S+   13:04   0:00 grep --color=auto sshd
+barsukov_d@itbarsukov:~$ sudo netstat -tlpn | grep sshd
+tcp        0      0 0.0.0.0:22              0.0.0.0:*               LISTEN      373077/sshd: /usr/s 
+tcp6       0      0 :::22                   :::*                    LISTEN      373077/sshd: /usr/s 
+
+=======
+vnc 10.8.56.16:6035, ssh 10.8.56.16:2341
+
+
+https://email.magnit.ru/owa/#path=/mail/inbox
+https://app.element.io/#/room/#sapp:im.magnit.ru
+https://coderepo.corp.tander.ru/mitdevelopment/howto/-/blob/master/vpn/remoteaccess.md
+
+
+Настройка SSH-сервера на ubuntu
+
+
+Установка ssh-сервера
+sudo apt-get install openssh-server
+
+
+Проверка
+sudo ps axu | grep sshd
+sudo netstat -tlpn | grep sshd
+
+
+С чужого ПК в локалке проверить доступность по SSH вашего ПК
+
+
+Через VPN подключение осуществляется командой
+ssh -p ваш-порт-на-балабите ваш-пользователь@10.8.56.16
+например
+ssh -p 2226 user@10.8.56.16
+
+
+Если ssh-сессия сбрасывается посреди процесса подключения, попробуйте
+ssh -vvv -p ваш-порт-на-балабите ваш-пользователь@10.8.56.16
+
+
+Если всё заканчивается на строчках вида
+debug1: sending SSH2_MSG_KEXDH_INIT
+debug2: bits set: 1054/2048
+debug3: send packet: type 30
+debug1: expecting SSH2_MSG_KEXDH_REPLY
+то необходимо писать на ДЗИ, чтобы пофиксили на балабите (например на Доценко Станислав Евгеньевич docenko_se@magnit.ru), и приложить к письму логи вывода ssh-клиента и ssh-сервера.

@@ -13,14 +13,18 @@ const actions = {
   authRequest: ({ commit, dispatch }, user) => {
     return new Promise((resolve, reject) => {
       commit("authRequest");
-
       apiCall({ url: AUTH_REQUEST_URL(), data: user, method: "POST" })
         .then((resp) => {
           localStorage.setItem("access-token", resp.token);
           // Получаем данные пользователя
-          dispatch("User/userRequest", user, { root: true });
+          dispatch("User/userRequest", user, { root: true }).then(() => {
+            // Redirect to home
+            if (router.currentRoute.name != "Home") {
+              router.replace({ name: "Home" });
+            }
+          });
+          //-
           commit("authSuccess", resp);
-          router.push("/");
           resolve(resp);
         })
         .catch((err) => {
@@ -38,11 +42,13 @@ const actions = {
       // TODO: Удалить после связки с бекендом
       // TODO: Сейчас пользователь хранится в localstorage
       localStorage.removeItem("profile");
+
+      if (router.currentRoute.name != "Login") {
+        router.replace({ name: "Login" });
+      }
       // Сбрасываем права
       ability.update({});
       //-
-      router.push("/login");
-      resolve();
     });
   },
 };

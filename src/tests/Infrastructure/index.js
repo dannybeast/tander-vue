@@ -1,4 +1,3 @@
-const locale = "ru-RU";
 export const infrastructureMocks = {
   infrastructureCopy: { success: true },
   infrastructureUpdate: { success: true },
@@ -146,7 +145,6 @@ export function infrastructureMethods({
           );
         }
       });
-
       break;
 
     // Infrastructure GET BY ID
